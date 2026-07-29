@@ -1,5 +1,4 @@
 <?php
-// dd('BOOTSTRAP');
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'force.password.change' => \App\Http\Middleware\ForcePasswordChange::class,
         ]);
+
+        // Nécessaire pour que Laravel détecte correctement HTTPS/l'IP réelle
+        // derrière un tunnel Cloudflare ou tout autre proxy inverse.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
