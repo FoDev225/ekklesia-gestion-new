@@ -85,7 +85,7 @@ class NewcomerController extends Controller
     // -------------------------------------------------------
     // Conversion d'un demeurant en fidèle
     // -------------------------------------------------------
-    public function convert(Request $request, Newcomer $newcomer)
+    public function convert(Request $request, NewComer $newcomer)
     {
         // Vérifications
         if ($newcomer->category !== 'demeurant') {
