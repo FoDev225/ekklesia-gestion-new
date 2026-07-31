@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Believer;
-use App\Models\Newcomer;
+use App\Models\NewComer;
 use App\Models\Departure;
 use App\Models\Sanction;
 use App\Models\Periode;
@@ -191,7 +191,7 @@ class DashboardController extends Controller
             });
 
         $nouveauxAnnee   = Believer::whereYear('created_at', now()->year)->count();
-        $nouveauxPersonnes = Newcomer::whereYear('created_at', now()->year)->count();
+        $nouveauxPersonnes = NewComer::whereYear('created_at', now()->year)->count();
 
         return compact(
             'total', 'actifs', 'inactifs', 'sanctionnes',
