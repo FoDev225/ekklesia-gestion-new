@@ -17,12 +17,12 @@
             <span class="text-gray-300">/</span>
             <span class="text-sm text-gray-700 font-medium">{{ $believer->full_name }}</span>
         </div>
-        <div class="flex gap-2">
+        <div class="flex gap-2 flex-wrap">
             {{-- Télécharger la fiche --}}
             <a href="{{ route('believers.fiche', $believer) }}"
-               target="_blank"
-               class="px-3 py-1.5 text-white text-sm rounded-md flex items-center gap-1"
-               style="background:#1a2e4a">
+            target="_blank"
+            class="px-3 py-1.5 text-white text-sm rounded-md flex items-center gap-1"
+            style="background:#1a2e4a">
                 📄 Fiche fidèle PDF
             </a>
             <a href="{{ route('believers.card', $believer) }}"
@@ -32,13 +32,53 @@
             </a>
             @can('believers.edit')
             <a href="{{ route('believers.edit', $believer) }}"
-               class="px-4 py-2 text-white text-sm rounded-md" style="background:#C9A635">
+            class="px-4 py-2 text-white text-sm rounded-md" style="background:#C9A635">
                 Modifier
             </a>
+
+            {{-- Sanction --}}
+            @if($believer->sanctions()->where('is_active', true)->exists())
+                <button type="button"
+                    onclick="openLiftSanctionModal({{ $believer->id }}, '{{ addslashes($believer->full_name) }}')"
+                    class="px-4 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-400">
+                    Lever la sanction
+                </button>
+            @else
+                <button type="button"
+                    onclick="openSanctionModal({{ $believer->id }}, '{{ addslashes($believer->full_name) }}')"
+                    class="px-4 py-2 bg-red-400 text-white text-sm rounded-md hover:bg-red-500">
+                    Sanctionner
+                </button>
+            @endif
+
+            {{-- Départ / Décès / Réintégration --}}
+            @if(!in_array($believer->status, ['parti', 'decede']))
+            <button type="button"
+                onclick="openDepartModal({{ $believer->id }}, '{{ addslashes($believer->full_name) }}')"
+                class="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded-md hover:bg-gray-300">
+                Départ
+            </button>
+            @endif
+            @if($believer->status === 'parti')
+            <form method="POST" action="{{ route('believers.reinstate', $believer) }}" class="inline">
+                @csrf @method('PATCH')
+                <button type="submit"
+                    onclick="return confirm('Réintégrer {{ addslashes($believer->full_name) }} ?')"
+                    class="px-4 py-2 bg-blue-100 text-blue-700 text-sm rounded-md hover:bg-blue-200">
+                    Réintégrer
+                </button>
+            </form>
+            @endif
+            @if($believer->status === 'decede')
+            <span class="inline-flex items-center px-2.5 py-2 bg-gray-100 text-gray-400 text-xs rounded">
+                🕊 Décédé
+            </span>
+            @endif
             @endcan
+
             @can('believers.delete')
             <form method="POST" action="{{ route('believers.destroy', $believer) }}"
-                  onsubmit="return confirm('Archiver ce fidèle ?')">
+                onsubmit="return confirm('Archiver ce fidèle ?')">
                 @csrf @method('DELETE')
                 <button type="submit"
                     class="px-4 py-2 bg-red-500 text-white text-sm rounded-md hover:bg-red-600">
@@ -236,7 +276,73 @@
                 @endforelse
             </div>
         </div>
+
+        {{-- ===================== MODALS ===================== --}}
+        @can('believers.edit')
+            @include('believers.partials.departure')
+            @include('believers.partials.sanction-modal')
+            @include('believers.partials.lift-sanction-modal')
+        @endcan
     </div>
+
+    <script>
+        // ── Départ / Décès ──
+        function openDepartModal(believerId, believerName) {
+            document.getElementById('modal-depart-name').textContent = believerName;
+            document.getElementById('form-depart').action = '/believers/' + believerId + '/depart';
+            document.getElementById('modal-depart').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeDepartModal() {
+            document.getElementById('modal-depart').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            document.getElementById('form-depart').reset();
+            document.getElementById('destination-field').classList.remove('hidden');
+        }
+
+        function toggleDestination(type) {
+            document.getElementById('destination-field').classList.toggle('hidden', type === 'deces');
+        }
+
+        // ── Sanction ──
+        function openSanctionModal(believerId, believerName) {
+            document.getElementById('modal-believer-name').textContent = believerName;
+            document.getElementById('form-sanction').action = '/believers/' + believerId + '/sanction';
+            document.getElementById('modal-sanction').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeSanctionModal() {
+            document.getElementById('modal-sanction').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            document.getElementById('form-sanction').reset();
+        }
+
+        // ── Lever la sanction ──
+        function openLiftSanctionModal(believerId, believerName) {
+            document.getElementById('lift-modal-believer-name').textContent = believerName;
+            document.getElementById('form-lift-sanction').action = '/believers/' + believerId + '/lift-sanction';
+            document.getElementById('lift-modal-sanction').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeLiftSanctionModal() {
+            document.getElementById('lift-modal-sanction').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            document.getElementById('form-lift-sanction').reset();
+        }
+
+        // Fermeture avec Échap
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeSanctionModal();
+                closeLiftSanctionModal();
+                closeDepartModal();
+            }
+        });
+    </script>
 
 </div>
 @endsection
+

@@ -149,105 +149,70 @@
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Situation</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Équipes</th>
+                            <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Sanction</th>
                             <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($believers as $i => $believer)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 text-gray-400">{{ $i + 1 }}</td>
-                            <td class="px-4 py-3 font-medium text-gray-900">
-                                <a href="{{ route('believers.show', $believer) }}" class="hover:text-indigo-600">
-                                    {{ $believer->full_name }}
-                                </a>
-                                @if($believer->is_sanctioned ?? false)
-                                    <span class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded">Sanction</span>
-                                @endif
-                            </td>
-                            <td class="px-4 py-3 text-gray-600">{{ $believer->gender_label }}</td>
-                            <td class="px-4 py-3">
-                                <span class="px-2 py-1 rounded-full text-xs font-medium {{ $believer->age_group_color }}">
-                                    {{ $believer->age_group }}
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 text-gray-600">{{ $believer->marital_status }}</td>
-                            <td class="px-4 py-3 text-gray-600">
-                                {{ $believer->address?->whatsapp ?? '—' }}
-                            </td>
-                            <td class="px-4 py-3">
-                                @foreach($believer->teams->take(2) as $team)
-                                    <span class="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs rounded mr-1">
-                                        {{ $team->name }}
-                                    </span>
-                                @endforeach
-                                @if($believer->teams->count() > 2)
-                                    <span class="text-xs text-gray-400">+{{ $believer->teams->count() - 2 }}</span>
-                                @endif
-                            </td>
-                            <td class="px-4 py-3 text-center whitespace-nowrap space-x-1">
-                                {{-- Voir --}}
-                                <a href="{{ route('believers.show', $believer) }}"
-                                   class="inline-flex items-center px-2.5 py-1 bg-cyan-100 text-cyan-700 hover:bg-cyan-200 text-xs font-medium rounded">
-                                    Voir
-                                </a>
-
-                                {{-- Modifier --}}
-                                @can('believers.edit')
-                                <a href="{{ route('believers.edit', $believer) }}"
-                                   class="inline-flex items-center px-2.5 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 text-xs font-medium rounded">
-                                    Modifier
-                                </a>
-                                @endcan
-
-                                {{-- Sanction --}}
-                                @can('believers.edit')
-                                    @if($believer->sanctions()->where('is_active', true)->exists())
-                                        <button type="button"
-                                            onclick="openLiftSanctionModal({{ $believer->id }}, '{{ addslashes($believer->full_name) }}')"
-                                            class="inline-flex items-center px-2.5 py-1 bg-green-500 text-white hover:bg-green-400 text-xs font-medium rounded">
-                                            Lever la sanction
-                                        </button>
-                                    @else
-                                        <button type="button"
-                                            onclick="openSanctionModal({{ $believer->id }}, '{{ addslashes($believer->full_name) }}')"
-                                            class="inline-flex items-center px-2.5 py-1 bg-red-400 text-white hover:bg-red-500 text-xs font-medium rounded">
-                                            Sanctionner
-                                        </button>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-gray-400">{{ $i + 1 }}</td>
+                                <td class="px-4 py-3 font-medium text-gray-900">
+                                    <a href="{{ route('believers.show', $believer) }}" class="hover:text-indigo-600">
+                                        {{ $believer->full_name }}
+                                    </a>
+                                    @if($believer->is_sanctioned ?? false)
+                                        <span class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded">Sanction</span>
                                     @endif
-                                @endcan
-                                {{-- Départ / Décès --}}
-                                @can('believers.edit')
-                                @if(!in_array($believer->status, ['parti', 'decede']))
-                                <button type="button"
-                                    onclick="openDepartModal({{ $believer->id }}, '{{ addslashes($believer->full_name) }}')"
-                                    class="inline-flex items-center px-2.5 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 text-xs font-medium rounded">
-                                    Départ
-                                </button>
-                                @endif
-                                @if($believer->status === 'parti')
-                                <form method="POST" action="{{ route('believers.reinstate', $believer) }}" class="inline">
-                                    @csrf @method('PATCH')
-                                    <button type="submit"
-                                        onclick="return confirm('Réintégrer {{ addslashes($believer->full_name) }} ?')"
-                                        class="inline-flex items-center px-2.5 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 text-xs font-medium rounded">
-                                        Réintégrer
-                                    </button>
-                                </form>
-                                @endif
-                                @if($believer->status === 'decede')
-                                <span class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-400 text-xs rounded">
-                                    🕊 Décédé
-                                </span>
-                                @endif
-                                @endcan
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-4 py-3 text-gray-600">{{ $believer->gender_label }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 rounded-full text-xs font-medium {{ $believer->age_group_color }}">
+                                        {{ $believer->age_group }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-gray-600">{{ $believer->marital_status }}</td>
+                                <td class="px-4 py-3 text-gray-600">
+                                    {{ $believer->address?->whatsapp ?? '—' }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    @foreach($believer->teams->take(2) as $team)
+                                        <span class="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs rounded mr-1">
+                                            {{ $team->name }}
+                                        </span>
+                                    @endforeach
+                                    @if($believer->teams->count() > 2)
+                                        <span class="text-xs text-gray-400">+{{ $believer->teams->count() - 2 }}</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-gray-600">
+                                    @if($believer->sanctions()->where('is_active', true)->exists())
+                                        <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-medium rounded">
+                                            Sous sanction
+                                        </span>
+                                    @else
+                                        —
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-center whitespace-nowrap space-x-1">
+                                    <a href="{{ route('believers.show', $believer) }}"
+                                    class="inline-flex items-center px-2.5 py-1 bg-cyan-100 text-cyan-700 text-xs font-medium rounded">
+                                        Voir
+                                    </a>
+                                    @can('believers.edit')
+                                    <a href="{{ route('believers.edit', $believer) }}"
+                                    class="inline-flex items-center px-2.5 py-1 bg-yellow-100 text-yellow-700 text-xs font-medium rounded">
+                                        Modifier
+                                    </a>
+                                    @endcan
+                                </td>
+                            </tr>
                         @empty
-                        <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-gray-400">
-                                Aucun fidèle trouvé.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td colspan="8" class="px-4 py-8 text-center text-gray-400">
+                                    Aucun fidèle trouvé.
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -262,70 +227,6 @@
 
         </div>
     </div>
-{{-- ===================== MODAL DÉPART / DÉCÈS ===================== --}}
-@include('believers.partials.departure')
-
-{{-- ===================== MODAL SANCTION ===================== --}}
-@include('believers.partials.sanction-modal')
-
-{{-- ===================== MODAL LEVER LA SANCTION ===================== --}}
-@include('believers.partials.lift-sanction-modal')
-
-<script>
-    // ── Départ / Décès ──
-    function openDepartModal(believerId, believerName) {
-        document.getElementById('modal-depart-name').textContent = believerName;
-        document.getElementById('form-depart').action = '/believers/' + believerId + '/depart';
-        document.getElementById('modal-depart').classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function closeDepartModal() {
-        document.getElementById('modal-depart').classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-        document.getElementById('form-depart').reset();
-        document.getElementById('destination-field').classList.remove('hidden');
-    }
-
-    function toggleDestination(type) {
-        document.getElementById('destination-field').classList.toggle('hidden', type === 'deces');
-    }
-    // ── Sanction ──
-    function openSanctionModal(believerId, believerName) {
-        document.getElementById('modal-believer-name').textContent = believerName;
-        document.getElementById('form-sanction').action = '/believers/' + believerId + '/sanction';
-        document.getElementById('modal-sanction').classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function closeSanctionModal() {
-        document.getElementById('modal-sanction').classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-        document.getElementById('form-sanction').reset();
-    }
-
-    // ── Lever la sanction ──
-    function openLiftSanctionModal(believerId, believerName) {
-        document.getElementById('lift-modal-believer-name').textContent = believerName;
-        document.getElementById('form-lift-sanction').action = '/believers/' + believerId + '/lift-sanction';
-        document.getElementById('lift-modal-sanction').classList.remove('hidden'); // ← ID corrigé
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function closeLiftSanctionModal() {
-        document.getElementById('lift-modal-sanction').classList.add('hidden'); // ← ID corrigé
-        document.body.classList.remove('overflow-hidden');
-        document.getElementById('form-lift-sanction').reset();
-    }
-
-    // Fermeture avec Échap
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            closeSanctionModal();
-            closeLiftSanctionModal();
-        }
-    });
-</script>
 
 </div>
 @endsection
