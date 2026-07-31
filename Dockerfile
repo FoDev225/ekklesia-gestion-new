@@ -23,8 +23,4 @@ RUN composer install --optimize-autoloader --no-dev
 
 EXPOSE 8080
 
-CMD php artisan migrate --force; \
-    php artisan storage:link || true; \
-    php artisan config:cache; \
-    echo "=== Starting server on port $PORT ==="; \
-    php artisan serve --host 0.0.0.0 --port $PORT
+CMD ["sh", "-c", "echo '=== PORT VALUE IS:' $PORT '==='; php artisan migrate --force; php artisan storage:link || true; php artisan config:cache; php artisan serve --host 0.0.0.0 --port ${PORT:-8080}"]
