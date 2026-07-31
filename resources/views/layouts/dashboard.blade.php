@@ -32,10 +32,18 @@
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
-<div class="flex h-screen overflow-hidden">
+<div class="flex h-screen overflow-hidden relative">
+
+    {{-- ======================== OVERLAY (mobile uniquement) ======================== --}}
+    <div id="sidebar-overlay" onclick="toggleSidebar()"
+         class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
     {{-- ======================== SIDEBAR ======================== --}}
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col overflow-y-auto" id="sidebar">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col overflow-y-auto
+                   fixed lg:static inset-y-0 left-0 z-40
+                   -translate-x-full lg:translate-x-0
+                   transition-transform duration-200 ease-in-out"
+           id="sidebar">
 
         {{-- Logo --}}
         <div class="px-6 py-5 border-b border-white/10">
@@ -71,7 +79,6 @@
 
             {{-- Membres — réservé admin/pasteur/secretariat --}}
             @hasanyrole('admin|pasteur|secretariat')
-            {{-- Membres --}}
             <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Membres</p>
             <a href="{{ route('believers.index') }}"
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm {{ request()->routeIs('believers.*') ? 'active' : '' }}">
@@ -204,7 +211,7 @@
     </aside>
 
     {{-- ======================== CONTENU ======================== --}}
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex-1 flex flex-col overflow-hidden w-full">
 
         {{-- Topbar --}}
         <header class="bg-white shadow-sm z-10">
@@ -246,6 +253,7 @@
 <script>
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        document.getElementById('sidebar-overlay').classList.toggle('hidden');
     }
 </script>
 
