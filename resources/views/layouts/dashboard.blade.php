@@ -258,5 +258,27 @@
 </script>
 
 @stack('scripts')
+
+    {{-- Modal d'avertissement d'inactivité --}}
+    <div id="idle-warning-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-sm text-center">
+            <div class="text-4xl mb-3">⏰</div>
+            <h3 class="text-lg font-bold text-gray-800 mb-2">Vous êtes toujours là ?</h3>
+            <p class="text-sm text-gray-600 mb-4">
+                Vous allez être déconnecté(e) dans <span id="idle-countdown" class="font-bold text-red-600">60</span> secondes par inactivité.
+            </p>
+            <button id="idle-stay-connected"
+                class="w-full py-2 text-white text-sm font-medium rounded-md" style="background:#3A9BDC">
+                Rester connecté(e)
+            </button>
+        </div>
+    </div>
+
+    {{-- Formulaire caché pour la déconnexion automatique --}}
+    <form id="idle-logout-form" method="POST" action="{{ route('logout') }}" class="hidden">
+        @csrf
+    </form>
+
+    @vite(['resources/js/idle-timeout.js'])
 </body>
 </html>
