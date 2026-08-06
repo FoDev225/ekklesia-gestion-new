@@ -109,7 +109,7 @@
                     <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Utilisateur</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Username</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Rôle</th>
-                    <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Fidèle lié</th>
+                    {{-- <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Fidèle lié</th> --}}
                     <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase">Statut</th>
                     <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase">MDP</th>
                     <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase">Actions</th>
@@ -130,7 +130,7 @@
                             {{ $user->getRoleNames()->first() ?? '—' }}
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-gray-600 text-xs">
+                    {{-- <td class="px-4 py-3 text-gray-600 text-xs">
                         @if($user->believer)
                             <a href="{{ route('believers.show', $user->believer) }}"
                                class="hover:underline" style="color:#3A9BDC">
@@ -139,7 +139,7 @@
                         @else
                             <span class="text-gray-400">—</span>
                         @endif
-                    </td>
+                    </td> --}}
                     <td class="px-4 py-3 text-center">
                         @if($user->is_active)
                             <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">● Actif</span>

@@ -33,7 +33,7 @@ class AdminUserController extends Controller
 
     public function create()
     {
-        $believers = Believer::whereNotIn('status', ['parti', 'decede'])
+        $believers = Believer::whereNotIn('status', ['depart', 'deces'])
             ->whereDoesntHave('user')
             ->orderBy('lastname')
             ->get(['id', 'lastname', 'firstname']);

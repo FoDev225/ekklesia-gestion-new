@@ -61,16 +61,17 @@ class User extends Authenticatable
 
     public static function generateUsername(string $firstname, string $lastname): string
     {
-        $base = Str::slug(
-            strtolower(self::removeAccents($firstname)) . '.' .
-            strtolower(self::removeAccents($lastname)),
-            '.'
-        );
+        // On ne garde que le DERNIER mot du prénom (ex: "Nanourgo Pierre" → "Pierre")
+        $firstWord = Str::of($firstname)->trim()->explode(' ')->last();
 
+        $first = Str::slug(self::removeAccents($firstWord));
+        $last  = Str::slug(self::removeAccents($lastname));
+
+        $base     = "{$first}.{$last}";
         $username = $base;
         $counter  = 1;
 
-        // S'assurer de l'unicité
+        // S'assurer de l'unicité (y compris parmi les comptes archivés)
         while (static::withTrashed()->where('username', $username)->exists()) {
             $username = $base . $counter;
             $counter++;
@@ -97,10 +98,17 @@ class User extends Authenticatable
     // Génération d'un mot de passe temporaire
     // -------------------------------------------------------
 
-    public static function generateTempPassword(): string
+    public static function generateTempPassword(?string $username = null): string
     {
-        // Format lisible : Lettre + chiffres + caractère spécial
-        return strtoupper(Str::random(3)) . rand(100, 999) . '@' . strtolower(Str::random(2));
+        $base = 'Ekklesia' . now()->format('Y');
+
+        if ($username) {
+            // Ajoute un suffixe dérivé du username pour que chaque mot de passe soit unique
+            $suffix = strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', $username), 0, 3));
+            return "{$base}@{$suffix}";
+        }
+
+        return "{$base}@" . strtoupper(Str::random(3));
     }
 
     // -------------------------------------------------------

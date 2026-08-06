@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
-use App\Models\TeamActivity;
+use App\Models\Activity;
 use App\Http\Requests\StoreTeamActivityRequest;
 use App\Http\Requests\FinishTeamActivityRequest;
 use App\Http\Requests\PostponeTeamActivityRequest;
@@ -22,12 +22,12 @@ class TeamActivityController extends Controller
             ->with('success', 'Activité programmée avec succès.');
     }
 
-    public function finish(FinishTeamActivityRequest $request, Team $team, TeamActivity $activity)
+    public function finish(FinishTeamActivityRequest $request, Team $team, Activity $activity)
     {
         $this->authorize('manage', $team);
 
-        $attendancePath = $request->file('attendance_list')->store("team-activities/{$team->id}/attendance", 'public');
-        $reportPath = $request->file('report')->store("team-activities/{$team->id}/reports", 'public');
+        $attendancePath = $request->file('attendance_list_path')->store("team-activities/{$team->id}/attendance", 'public');
+        $reportPath = $request->file('report_path')->store("team-activities/{$team->id}/reports", 'public');
 
         $activity->update([
             'attendance_list_path' => $attendancePath,
@@ -40,7 +40,7 @@ class TeamActivityController extends Controller
             ->with('success', 'Activité clôturée avec succès.');
     }
 
-    public function postpone(PostponeTeamActivityRequest $request, Team $team, TeamActivity $activity)
+    public function postpone(PostponeTeamActivityRequest $request, Team $team, Activity $activity)
     {
         $this->authorize('manage', $team);
 

@@ -290,9 +290,9 @@
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Prédicateur</label>
-                        <input type="text" name="precher"
+                        <input type="text" name="preacher"
                                class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
-                               value="{{ old('precher') }}">
+                               value="{{ old('preacher') }}">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Budget (FCFA)</label>
@@ -351,12 +351,12 @@
             @csrf
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Liste de présence (PDF)</label>
-                <input type="file" name="attendance_list" accept="application/pdf" required
+                <input type="file" name="attendance_list_path" accept="application/pdf" required
                        class="w-full border-gray-300 rounded-md text-sm">
             </div>
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Rapport (PDF)</label>
-                <input type="file" name="report" accept="application/pdf" required
+                <input type="file" name="report_path" accept="application/pdf" required
                        class="w-full border-gray-300 rounded-md text-sm">
             </div>
             <div class="flex gap-2 pt-2">

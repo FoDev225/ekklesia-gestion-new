@@ -143,12 +143,12 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">#</th>
+                            <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Photo</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Nom & Prénom</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Genre</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Tranche d'âge</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Situation</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                            <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Équipes</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Sanction</th>
                             <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
@@ -157,6 +157,16 @@
                         @forelse($believers as $i => $believer)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-gray-400">{{ $i + 1 }}</td>
+                                <td class="px-4 py-3">
+                                    @if($believer->profile_picture)
+                                        <img src="{{ $believer->profile_picture_url }}" alt="{{ $believer->full_name }}"
+                                            class="w-20 h-20 rounded-full object-cover border-2 border-gray-100 flex-shrink-0">
+                                    @else
+                                        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-2xl font-bold flex-shrink-0">
+                                            {{ strtoupper(substr($believer->firstname, 0, 1) . substr($believer->lastname, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 font-medium text-gray-900">
                                     <a href="{{ route('believers.show', $believer) }}" class="hover:text-indigo-600">
                                         {{ $believer->full_name }}
@@ -174,16 +184,6 @@
                                 <td class="px-4 py-3 text-gray-600">{{ $believer->marital_status }}</td>
                                 <td class="px-4 py-3 text-gray-600">
                                     {{ $believer->address?->whatsapp ?? '—' }}
-                                </td>
-                                <td class="px-4 py-3">
-                                    @foreach($believer->teams->take(2) as $team)
-                                        <span class="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs rounded mr-1">
-                                            {{ $team->name }}
-                                        </span>
-                                    @endforeach
-                                    @if($believer->teams->count() > 2)
-                                        <span class="text-xs text-gray-400">+{{ $believer->teams->count() - 2 }}</span>
-                                    @endif
                                 </td>
                                 <td class="px-4 py-3 text-gray-600">
                                     @if($believer->sanctions()->where('is_active', true)->exists())
