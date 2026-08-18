@@ -32,19 +32,24 @@ class BelieverSeeder extends Seeder
             $teams = collect([
                 ['name' => 'J-AEBECI', 'slug' => 'jeunesse', 'description' => 'Jeunesse de l\'église'],
                 ['name' => 'AFEBECI',     'slug' => 'femmes', 'description' => 'Femmes de l\'église'],
-                ['name' => 'ECODIM', 'slug' => 'ecodim', 'description' => 'École du dimanche'],
-                ['name' => 'Évangélisation',       'slug' => 'evangelisation', 'description' => 'Équipe d\'Évangélisation'],
-                ['name' => 'Prière',               'slug' => 'priere', 'description' => 'Équipe de prière'],
-                ['name' => 'Protocole',             'slug' => 'protocole', 'description' => 'Protocole de l\'église'],
-                ['name' => 'Acteur de culte',             'slug' => 'culte', 'description' => 'Acteur de culte de l\'église'],
+                ['name' => 'COMITE', 'slug' => 'comite', 'description' => 'Comité de l\'église'],
+                ['name' => 'GROUPES DES HOMMES',       'slug' => 'groupes-des-hommes', 'description' => 'Groupe des hommes de l\'église'],
             ])->map(fn($t) => Team::create($t));
         }
 
         $groups = Group::all();
         if ($groups->isEmpty()) {
             $groups = collect([
-                ['name' => 'Service d\'ordre',  'description' => 'Service d\'ordre et d\'accueil de l\'église'],
-                ['name' => 'Equipe de nettoyage',  'description' => 'Service d\'ordre et d\'accueil de l\'église'],
+                ['name' => 'EQUIPE DE PRIERE', 'slug' => 'equipe-priere', 'description' => 'Equipe de prière de l\'église'],
+                ['name' => 'PROTOCOLE', 'slug' => 'protocole',  'description' => 'Protocoles de l\'église'],
+                ['name' => 'EQUIPE D\'EVANGELISATION', 'slug' => 'equipe-evangelisation' ,'description' => 'Equipe d\'évangélisation de l\'église'],
+                ['name' => 'ECODIM', 'slug' => 'ecodim', 'description' => 'École du dimanche'],
+                ['name' => 'ENTRETIEN',       'slug' => 'entretien', 'description' => 'Équipe d\'Entretien'],
+                ['name' => 'CONSTRUCTION',               'slug' => 'construction', 'description' => 'Équipe de construction'],
+                ['name' => 'PATRIMOINE',             'slug' => 'patrimoine', 'description' => 'Gestion du patrimoine de l\'église'],
+                ['name' => 'CELLULE MATRIMONIALE',             'slug' => 'matrimoniale', 'description' => 'Cellule matrimoniale'],
+                ['name' => 'CERCOM',             'slug' => 'cercom', 'description' => 'Cellule de communication'],
+                ['name' => 'ACCUEIL ET INSTALLATION',             'slug' => 'accueil-installation', 'description' => 'Cellule d\'accueil et d\'installation'],
             ])->map(fn($g) => Group::create($g));
         }
 

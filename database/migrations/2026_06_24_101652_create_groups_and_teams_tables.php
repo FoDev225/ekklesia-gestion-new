@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
+             $table->string('slug')->unique();
             $table->foreignId('leader_id')->nullable()->constrained('believers')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();

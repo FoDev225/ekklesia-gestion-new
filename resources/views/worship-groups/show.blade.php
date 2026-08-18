@@ -58,6 +58,10 @@
                 {{ $worshipGroup->leader->full_name ?? $worshipGroup->leader->name ?? '—' }}
             </p>
         </div>
+        <div class="bg-white rounded-lg p-4 shadow-sm border-l-4" style="border-color:#C9A635">
+            <p class="text-xs text-gray-500 uppercase font-medium">Rapports</p>
+            <p class="text-2xl font-bold mt-1" style="color:#C9A635">{{ $worshipGroup->rapports->count() }}</p>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -116,9 +120,68 @@
                 </table>
             </div>
 
+            {{-- Rapports du groupe de louange --}}
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="px-4 py-3 border-b border-gray-200">
+                    <h3 class="text-sm font-semibold text-gray-700 uppercase">Rapports</h3>
+                </div>
+                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Titre</th>
+                            <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Date</th>
+                            <th class="px-4 py-3 text-left font-medium text-gray-500 uppercase">Description</th>
+                            <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase">Fichier</th>
+                            <th class="px-4 py-3 text-center font-medium text-gray-500 uppercase">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse ($worshipGroup->rapports as $rapport)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium text-gray-900">{{ $rapport->titre }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $rapport->date->format('d/m/Y') }}</td>
+                            <td class="px-4 py-3 text-gray-600 text-xs max-w-xs truncate">
+                                {{ $rapport->description ?: '—' }}
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                @if($rapport->fichier)
+                                    <a href="{{ $rapport->fichier_url }}" target="_blank"
+                                       class="text-xs px-2 py-1 bg-cyan-100 text-cyan-700 rounded">
+                                        Voir
+                                    </a>
+                                @else
+                                    <span class="text-gray-300 text-xs">—</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 text-center whitespace-nowrap">
+                                <form action="{{ route('worship-groups.rapports.destroy', [$worshipGroup, $rapport]) }}" method="POST"
+                                      onsubmit="return confirm('Supprimer ce rapport ?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="inline-flex items-center px-2.5 py-1 bg-red-100 text-red-700 text-xs font-medium rounded">
+                                        Supprimer
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="px-4 py-8 text-center text-gray-400">
+                                Aucun rapport pour le moment.
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
-        <div class="md:col-span-1">
+        {{-- Formulaires latéraux --}}
+        <div class="md:col-span-1 space-y-4">
+
+            {{-- Affecter un fidèle --}}
             <div class="bg-white shadow-sm rounded-lg p-4">
                 <h3 class="text-sm font-semibold text-gray-700 uppercase mb-3">Affecter un fidèle</h3>
                 <form action="{{ route('worship-groups.believers.store', $worshipGroup) }}" method="POST" class="space-y-3">
@@ -158,6 +221,65 @@
                     </button>
                 </form>
             </div>
+
+            {{-- Ajouter un rapport --}}
+            <div class="bg-white shadow-sm rounded-lg p-4">
+                <h3 class="text-sm font-semibold text-gray-700 uppercase mb-3">Ajouter un rapport</h3>
+                <form action="{{ route('worship-groups.rapports.store', $worshipGroup) }}" method="POST"
+                      enctype="multipart/form-data" class="space-y-3">
+                    @csrf
+                    <div>
+                        <label for="titre" class="block text-xs font-medium text-gray-500 uppercase mb-1">
+                            Titre <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="titre" id="titre" required
+                               class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('titre') border-red-500 @enderror"
+                               value="{{ old('titre') }}">
+                        @error('titre')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="date" class="block text-xs font-medium text-gray-500 uppercase mb-1">
+                            Date <span class="text-red-500">*</span>
+                        </label>
+                        <input type="date" name="date" id="date" required
+                               class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('date') border-red-500 @enderror"
+                               value="{{ old('date', now()->format('Y-m-d')) }}">
+                        @error('date')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="description" class="block text-xs font-medium text-gray-500 uppercase mb-1">
+                            Description
+                        </label>
+                        <textarea name="description" id="description" rows="2"
+                                  class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label for="fichier" class="block text-xs font-medium text-gray-500 uppercase mb-1">
+                            Fichier (PDF, Word, image)
+                        </label>
+                        <input type="file" name="fichier" id="fichier" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                               class="w-full text-sm">
+                        <p class="text-xs text-gray-400 mt-1">Max 10 Mo.</p>
+                        @error('fichier')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <button type="submit"
+                        class="w-full inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-md"
+                        style="background:#C9A635">
+                        Ajouter le rapport
+                    </button>
+                </form>
+            </div>
+
         </div>
 
     </div>

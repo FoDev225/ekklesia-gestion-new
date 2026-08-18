@@ -186,12 +186,22 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
         Route::delete('groups/{group}/believers/{believer}', [\App\Http\Controllers\GroupController::class, 'removeBeliever'])->name('groups.believers.destroy');
         Route::get('groups/{group}/members/pdf', [\App\Http\Controllers\GroupController::class, 'membersPdf'])->name('groups.members-pdf');
 
+        Route::post('groups/{group}/rapports', [\App\Http\Controllers\RapportController::class, 'store'])
+            ->name('groups.rapports.store');
+        Route::delete('groups/{group}/rapports/{rapport}', [\App\Http\Controllers\RapportController::class, 'destroy'])
+            ->name('groups.rapports.destroy');
+
         // Groupes de louange
         Route::resource('worship-groups', \App\Http\Controllers\WorshipGroupController::class)
             ->parameters(['worship-groups' => 'worship_group']);
         Route::post('worship-groups/{worship_group}/believers', [\App\Http\Controllers\WorshipGroupController::class, 'assignBeliever'])->name('worship-groups.believers.store');
         Route::delete('worship-groups/{worship_group}/believers/{believer}', [\App\Http\Controllers\WorshipGroupController::class, 'removeBeliever'])->name('worship-groups.believers.destroy');
         Route::get('worship-groups/{worship_group}/members/pdf', [\App\Http\Controllers\WorshipGroupController::class, 'membersPdf'])->name('worship-groups.members-pdf');
+
+        Route::post('worship-groups/{worship_group}/rapports', [\App\Http\Controllers\WorshipGroupRapportController::class, 'store'])
+            ->name('worship-groups.rapports.store');
+        Route::delete('worship-groups/{worship_group}/rapports/{rapport}', [\App\Http\Controllers\WorshipGroupRapportController::class, 'destroy'])
+            ->name('worship-groups.rapports.destroy');
     });
 
     // Consultation du programme — lecture seule, accessible aussi aux acteurs de culte

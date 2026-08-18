@@ -130,33 +130,29 @@
             @endhasanyrole
 
             {{-- Équipes & Activités --}}
-            <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Équipes</p>
+            <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Groupes</p>
             @hasanyrole('admin|pasteur')
             <a href="{{ route('teams.index') }}"
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
-                <span>🤝</span> Équipes
+                <span>🤝</span> Groupes
             </a>
             @endhasanyrole
-            <a href="#"
-               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
-                <span>📌</span> Activités
-            </a>
 
             {{-- Groupes --}}
             @hasanyrole('admin|pasteur')
-            <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Groupes</p>
+            <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Equipes</p>
             <a href="{{ route('groups.index') }}"
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
-                <span>👥</span> Groupes
+                <span>👥</span> Equipes
             </a>
             @endhasanyrole
 
             {{-- Groupes de louange --}}
             @hasanyrole('admin|pasteur')
-            <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Groupes de Louange</p>
+            <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Equipes de Louange</p>
             <a href="{{ route('worship-groups.index') }}"
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
-                <span>👥</span> Groupes de Louange
+                <span>👥</span> Equipes de Louange
             </a>
             @endhasanyrole
 

@@ -56,7 +56,7 @@ class WorshipGroupController extends Controller
 
     public function show(WorshipGroup $worshipGroup)
     {
-        $worshipGroup->load(['leader', 'believers' => fn ($q) => $q->orderBy('lastname')]);
+        $worshipGroup->load(['leader', 'believers' => fn ($q) => $q->orderBy('lastname'), 'rapports']);
 
         $availableBelievers = Believer::whereDoesntHave('worshipGroups', function ($q) use ($worshipGroup) {
             $q->where('worship_groups.id', $worshipGroup->id);

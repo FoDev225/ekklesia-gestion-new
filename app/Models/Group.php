@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Group extends Model
 {
@@ -13,6 +14,7 @@ class Group extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'leader_id',
     ];
@@ -26,5 +28,10 @@ class Group extends Model
     {
         return $this->belongsToMany(Believer::class, 'believer_group')
             ->withPivot('joined_at');
+    }
+
+    public function rapports(): HasMany
+    {
+        return $this->hasMany(Rapport::class)->orderByDesc('date');
     }
 }

@@ -55,7 +55,7 @@ class GroupController extends Controller
 
     public function show(Group $group)
     {
-        $group->load(['leader', 'believers' => fn ($q) => $q->orderBy('lastname')]);
+        $group->load(['leader', 'believers' => fn ($q) => $q->orderBy('lastname'), 'rapports']);
 
         $availableBelievers = Believer::whereDoesntHave('groups', function ($q) use ($group) {
             $q->where('groups.id', $group->id);
