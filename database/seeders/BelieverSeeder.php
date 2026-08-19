@@ -30,8 +30,8 @@ class BelieverSeeder extends Seeder
         $teams = Team::all();
         if ($teams->isEmpty()) {
             $teams = collect([
-                ['name' => 'J-AEBECI', 'slug' => 'jeunesse', 'description' => 'Jeunesse de l\'église'],
-                ['name' => 'AFEBECI',     'slug' => 'femmes', 'description' => 'Femmes de l\'église'],
+                ['name' => 'J-AEBECI', 'slug' => 'j-aebeci', 'description' => 'Jeunesse de l\'église'],
+                ['name' => 'AFEBECI',     'slug' => 'afebeci', 'description' => 'Femmes de l\'église'],
                 ['name' => 'COMITE', 'slug' => 'comite', 'description' => 'Comité de l\'église'],
                 ['name' => 'GROUPES DES HOMMES',       'slug' => 'groupes-des-hommes', 'description' => 'Groupe des hommes de l\'église'],
             ])->map(fn($t) => Team::create($t));
