@@ -136,6 +136,11 @@
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
                 <span>🤝</span> Groupes
             </a>
+
+            <a href="{{ route('comite.index') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+                <span>🤝</span> Comite
+            </a>
             @endhasanyrole
 
             {{-- Groupes --}}

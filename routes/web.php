@@ -149,6 +149,19 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
         Route::get('dedication/{dedication}/fiche', [\App\Http\Controllers\ChildDedicationController::class, 'downloadFiche'])->name('dedication.fiche');
 
         Route::get('inscriptions/qrcodes', [\App\Http\Controllers\Public\PublicRegistrationController::class, 'qrCodes'])->name('admin.qrcodes');
+
+        // COMITÉ (admin, pasteur, secrétariat, direction_culte)
+        Route::prefix('comite')->name('comite.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\ComiteController::class, 'index'])->name('index');
+            Route::post('/', [\App\Http\Controllers\ComiteController::class, 'store'])->name('store');
+            Route::patch('{member}/deactivate', [\App\Http\Controllers\ComiteController::class, 'deactivate'])->name('deactivate');
+            Route::patch('{member}/reactivate', [\App\Http\Controllers\ComiteController::class, 'reactivate'])->name('reactivate');
+            Route::delete('{member}', [\App\Http\Controllers\ComiteController::class, 'destroy'])->name('destroy');
+
+            Route::get('reunions', [\App\Http\Controllers\ComiteMeetingController::class, 'index'])->name('meetings');
+            Route::post('reunions', [\App\Http\Controllers\ComiteMeetingController::class, 'store'])->name('meetings.store');
+            Route::delete('reunions/{meeting}', [\App\Http\Controllers\ComiteMeetingController::class, 'destroy'])->name('meetings.destroy');
+        });
     });
 
     // -----------------------------------------------------------

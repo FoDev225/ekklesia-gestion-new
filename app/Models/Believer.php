@@ -193,6 +193,11 @@ class Believer extends Model
         return $this->hasMany(Team::class, 'leader_id');
     }
 
+    public function comiteMembership()
+    {
+        return $this->hasMany(Comite::class);
+    }
+
     // -------------------------------------------------------
     // Scopes
     // -------------------------------------------------------
