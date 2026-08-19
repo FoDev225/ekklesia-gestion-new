@@ -125,22 +125,7 @@
 
                         <x-input-error :messages="$errors->get('password')" class="mt-1"/>
 
-                        <div class="flex items-center justify-between mt-4">
-
-                            <label class="inline-flex items-center text-sm text-gray-600">
-
-                                <input
-                                    type="checkbox"
-                                    name="remember"
-                                    class="rounded border-gray-300 text-sky-600 focus:ring-sky-500">
-
-                                <span class="ml-2">
-                                    Se souvenir
-                                </span>
-
-                            </label>
-
-                        </div>
+                        {{-- Bouton de connexion --}}
 
                         <button
                             type="submit"
