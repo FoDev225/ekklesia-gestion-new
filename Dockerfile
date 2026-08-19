@@ -19,6 +19,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
 
+# Garantit que les dossiers de cache Laravel existent, peu importe ce que Git a préservé
+RUN mkdir -p storage/framework/views \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/logs \
+    bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
 RUN composer install --optimize-autoloader --no-dev
 
 EXPOSE 8080
