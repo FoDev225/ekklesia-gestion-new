@@ -160,9 +160,10 @@
                                 <td class="px-4 py-3">
                                     @if($believer->profile_picture)
                                         <img src="{{ $believer->profile_picture_url }}" alt="{{ $believer->full_name }}"
-                                            class="w-20 h-20 rounded-full object-cover border-2 border-gray-100 flex-shrink-0">
+                                            onclick="openPhotoModal('{{ $believer->profile_picture_url }}', '{{ addslashes($believer->full_name) }}')"
+                                            class="w-20 h-20 rounded-full object-cover border-2 border-gray-100 flex-shrink-0 cursor-pointer hover:opacity-80 hover:ring-2 hover:ring-indigo-400 transition">
                                     @else
-                                        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-2xl font-bold flex-shrink-0">
+                                        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm font-bold flex-shrink-0">
                                             {{ strtoupper(substr($believer->firstname, 0, 1) . substr($believer->lastname, 0, 1)) }}
                                         </div>
                                     @endif
@@ -218,15 +219,49 @@
                 </table>
 
                 {{-- Pagination --}}
-                @if($believers->hasPages())
-                <div class="px-4 py-3 border-t border-gray-200">
-                    {{ $believers->links() }}
-                </div>
-                @endif
+            @if($believers->hasPages())
+            <div class="px-4 py-3 border-t border-gray-200">
+                {{ $believers->links() }}
             </div>
+            @endif
+        </div>
 
+    </div>
+
+    {{-- Modal : Photo en grand format --}}
+    <div id="photoModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+        onclick="closePhotoModal()">
+        <div class="relative max-w-md w-full" onclick="event.stopPropagation()">
+            <button type="button" onclick="closePhotoModal()"
+                class="absolute -top-10 right-0 text-white text-2xl hover:text-gray-300">
+                ✕
+            </button>
+            <div class="aspect-square w-full rounded-lg shadow-2xl overflow-hidden bg-gray-800">
+                <img id="photoModalImg" src="" alt=""
+                    class="w-full h-full object-cover">
+            </div>
+            <p id="photoModalName" class="text-white text-center mt-3 text-sm font-medium"></p>
         </div>
     </div>
 
+    <script>
+        function openPhotoModal(src, name) {
+            document.getElementById('photoModalImg').src = src;
+            document.getElementById('photoModalName').textContent = name;
+            document.getElementById('photoModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photoModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closePhotoModal();
+        });
+    </script>
+
 </div>
+
 @endsection

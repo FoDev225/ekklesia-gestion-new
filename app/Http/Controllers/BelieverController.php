@@ -39,8 +39,9 @@ class BelieverController extends Controller
         $groups = \App\Models\Group::orderBy('name')->get();
         $cells  = \App\Models\Cell::orderBy('name')->get();
         $worshipGroups = \App\Models\WorshipGroup::orderBy('name')->get();
+        $languages = \App\Models\Language::orderBy('name')->get();
 
-        return view('believers.create', compact('teams', 'groups', 'cells', 'worshipGroups'));
+        return view('believers.create', compact('teams', 'groups', 'cells', 'worshipGroups', 'languages'));
     }
 
     public function store(BelieverFormRequest $request)
@@ -73,8 +74,28 @@ class BelieverController extends Controller
         if ($request->filled('groups')) {
             $believer->groups()->sync($request->groups);
         }
+        if ($request->filled('worship_groups')) {
+            $believer->worshipGroups()->sync($request->worship_groups);
+        }
         if ($request->filled('cell_id')) {
             $believer->cells()->sync([$request->cell_id]);
+        }
+        if ($request->filled('languages')) {
+            $syncData = [];
+            foreach ($request->languages as $languageId => $skills) {
+                // On ne synchronise que les langues où au moins une compétence est cochée
+                if (empty($skills)) {
+                    continue;
+                }
+                $syncData[$languageId] = [
+                    'lu'    => isset($skills['lu']),
+                    'parle' => isset($skills['parle']),
+                    'ecrit' => isset($skills['ecrit']),
+                ];
+            }
+            $believer->languages()->sync($syncData);
+        } else {
+            $believer->languages()->sync([]);
         }
 
         return redirect()
@@ -105,15 +126,16 @@ class BelieverController extends Controller
     {
         $believer->load([
             'address', 'churchInformation', 'education',
-            'profession', 'responsibility', 'teams', 'groups', 'worshipGroups', 'cells',
+            'profession', 'responsibility', 'teams', 'groups', 'worshipGroups', 'cells', 'languages'
         ]);
 
         $teams  = Team::orderBy('name')->get();
         $groups = \App\Models\Group::orderBy('name')->get();
         $cells  = \App\Models\Cell::orderBy('name')->get();
         $worshipGroups = \App\Models\WorshipGroup::orderBy('name')->get();
+        $languages = \App\Models\Language::orderBy('name')->get();
 
-        return view('believers.edit', compact('believer', 'teams', 'groups', 'cells', 'worshipGroups'));
+        return view('believers.edit', compact('believer', 'teams', 'groups', 'cells', 'worshipGroups', 'languages'));
     }
 
     public function update(BelieverFormRequest $request, Believer $believer)
@@ -167,9 +189,29 @@ class BelieverController extends Controller
         // Sync many-to-many
         $believer->teams()->sync($request->input('teams', []));
         $believer->worshipGroups()->sync($request->input('worship_groups', []));
+        $believer->groups()->sync($request->input('groups', []));
 
         if ($request->filled('cell_id')) {
             $believer->cells()->sync([$request->cell_id]);
+        }
+
+        // ── Langues avec compétences (lu/parlé/écrit) ──
+        if ($request->filled('languages')) {
+            $syncData = [];
+            foreach ($request->languages as $languageId => $skills) {
+                // On ne synchronise que les langues où au moins une compétence est cochée
+                if (empty($skills)) {
+                    continue;
+                }
+                $syncData[$languageId] = [
+                    'lu'    => isset($skills['lu']),
+                    'parle' => isset($skills['parle']),
+                    'ecrit' => isset($skills['ecrit']),
+                ];
+            }
+            $believer->languages()->sync($syncData);
+        } else {
+            $believer->languages()->sync([]);
         }
 
         return redirect()

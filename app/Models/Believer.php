@@ -135,7 +135,8 @@ class Believer extends Model
 
     public function languages()
     {
-        return $this->belongsToMany(Language::class, 'believer_language');
+        return $this->belongsToMany(Language::class, 'believer_language')
+            ->withPivot(['lu', 'parle', 'ecrit']);
     }
 
     public function groups()

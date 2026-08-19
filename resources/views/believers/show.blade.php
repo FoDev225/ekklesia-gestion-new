@@ -25,11 +25,11 @@
             style="background:#1a2e4a">
                 📄 Fiche fidèle PDF
             </a>
-            <a href="{{ route('believers.card', $believer) }}"
+            {{-- <a href="{{ route('believers.card', $believer) }}"
                 class="inline-flex items-center px-4 py-2 text-white text-sm font-medium rounded-md"
                 style="background:#C9A635">
                     🪪 Carte de membre
-            </a>
+            </a> --}}
             @can('believers.edit')
             <a href="{{ route('believers.edit', $believer) }}"
             class="px-4 py-2 text-white text-sm rounded-md" style="background:#C9A635">
@@ -246,13 +246,23 @@
         <h4 class="font-semibold text-gray-700 border-b pb-2 mb-4">Appartenance</h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-                <p class="text-xs text-gray-500 uppercase font-medium mb-2">Équipes</p>
+                <p class="text-xs text-gray-500 uppercase font-medium mb-2">Groupes</p>
                 @forelse($believer->teams as $team)
                     <span class="inline-block px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded mb-1">
                         {{ $team->name }}
                     </span>
                 @empty
-                    <p class="text-gray-400 text-sm">Aucune équipe</p>
+                    <p class="text-gray-400 text-sm">Aucun groupe</p>
+                @endforelse
+            </div>
+            <div>
+                <p class="text-xs text-gray-500 uppercase font-medium mb-2">Équipes</p>
+                @forelse($believer->groups as $group)
+                    <span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded mb-1">
+                        {{ $group->name }}
+                    </span>
+                @empty
+                    <p class="text-gray-400 text-sm">Aucun Équipes</p>
                 @endforelse
             </div>
             <div>
@@ -273,6 +283,27 @@
                     </span>
                 @empty
                     <p class="text-gray-400 text-sm">Aucune cellule</p>
+                @endforelse
+            </div>
+            <div>
+                <p class="text-xs text-gray-500 uppercase font-medium mb-2">Langues</p>
+                @forelse($believer->languages as $language)
+                    <div class="flex items-center gap-2 mb-1 text-sm">
+                        <span class="font-medium text-gray-700">{{ $language->name }}</span>
+                        <span class="flex gap-1">
+                            @if($language->pivot->lu)
+                                <span class="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Lu</span>
+                            @endif
+                            @if($language->pivot->parle)
+                                <span class="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs rounded">Parlé</span>
+                            @endif
+                            @if($language->pivot->ecrit)
+                                <span class="px-1.5 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">Écrit</span>
+                            @endif
+                        </span>
+                    </div>
+                @empty
+                    <p class="text-gray-400 text-sm">Aucune langue renseignée</p>
                 @endforelse
             </div>
         </div>

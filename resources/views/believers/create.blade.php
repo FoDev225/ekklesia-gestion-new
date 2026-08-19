@@ -45,6 +45,7 @@
                             ['id' => 'profession',     'label' => '⑤ Profession'],
                             ['id' => 'responsabilite', 'label' => '⑥ Responsabilités'],
                             ['id' => 'appartenance',   'label' => '⑦ Équipes & Groupes'],
+                            ['id' => 'langues',        'label' => '⑧ Langues'],
                         ] as $tab)
                         <button type="button"
                             onclick="switchTab('{{ $tab['id'] }}')"
@@ -344,7 +345,7 @@
                     <h3 class="font-medium text-gray-700 mb-4">Appartenance aux équipes & groupes</h3>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Équipes</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Groupes</label>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                             @foreach($teams as $team)
                             <label class="flex items-center gap-2 text-sm cursor-pointer">
@@ -352,6 +353,20 @@
                                     @checked(in_array($team->id, old('teams', [])))
                                     class="rounded border-gray-300 text-indigo-600">
                                 {{ $team->name }}
+                            </label>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Équipes</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            @foreach($groups as $group)
+                            <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                <input type="checkbox" name="groups[]" value="{{ $group->id }}"
+                                    @checked(in_array($group->id, old('groups', [])))
+                                    class="rounded border-gray-300 text-indigo-600">
+                                {{ $group->name }}
                             </label>
                             @endforeach
                         </div>
@@ -382,6 +397,48 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Langues</label>
+                        <div class="border border-gray-200 rounded-md overflow-hidden">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left font-medium text-gray-500 uppercase text-xs">Langue</th>
+                                        <th class="px-3 py-2 text-center font-medium text-gray-500 uppercase text-xs">Lu</th>
+                                        <th class="px-3 py-2 text-center font-medium text-gray-500 uppercase text-xs">Parlé</th>
+                                        <th class="px-3 py-2 text-center font-medium text-gray-500 uppercase text-xs">Écrit</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    @foreach($languages as $language)
+                                    @php
+                                        $existingPivot = isset($believer) ? $believer->languages->firstWhere('id', $language->id)?->pivot : null;
+                                    @endphp
+                                    <tr>
+                                        <td class="px-3 py-2 text-gray-700">{{ $language->name }}</td>
+                                        <td class="px-3 py-2 text-center">
+                                            <input type="checkbox" name="languages[{{ $language->id }}][lu]" value="1"
+                                                @checked(old("languages.{$language->id}.lu", $existingPivot?->lu))
+                                                class="rounded border-gray-300 text-indigo-600">
+                                        </td>
+                                        <td class="px-3 py-2 text-center">
+                                            <input type="checkbox" name="languages[{{ $language->id }}][parle]" value="1"
+                                                @checked(old("languages.{$language->id}.parle", $existingPivot?->parle))
+                                                class="rounded border-gray-300 text-indigo-600">
+                                        </td>
+                                        <td class="px-3 py-2 text-center">
+                                            <input type="checkbox" name="languages[{{ $language->id }}][ecrit]" value="1"
+                                                @checked(old("languages.{$language->id}.ecrit", $existingPivot?->ecrit))
+                                                class="rounded border-gray-300 text-indigo-600">
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Cochez au moins une compétence pour enregistrer une langue.</p>
                     </div>
                 </div>
 
