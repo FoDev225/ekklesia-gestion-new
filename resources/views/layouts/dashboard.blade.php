@@ -150,6 +150,11 @@
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
                 <span>👥</span> Equipes
             </a>
+
+            <a href="{{ route('construction.index') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+                <span>👥</span> Equipe de Construction
+            </a>
             @endhasanyrole
 
             {{-- Groupes de louange --}}

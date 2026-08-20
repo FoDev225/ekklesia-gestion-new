@@ -192,10 +192,15 @@ class Believer extends Model
     {
         return $this->hasMany(Team::class, 'leader_id');
     }
-
+    // Comite Membership relation
     public function comiteMembership()
     {
         return $this->hasMany(Comite::class);
+    }
+    // Construction Membership relation
+    public function constructionMembership()
+    {
+        return $this->hasMany(EquipeConstruction::class);
     }
 
     // -------------------------------------------------------

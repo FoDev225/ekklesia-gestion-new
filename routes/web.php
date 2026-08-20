@@ -150,18 +150,29 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
 
         Route::get('inscriptions/qrcodes', [\App\Http\Controllers\Public\PublicRegistrationController::class, 'qrCodes'])->name('admin.qrcodes');
 
-        // COMITÉ (admin, pasteur, secrétariat, direction_culte)
-        Route::prefix('comite')->name('comite.')->group(function () {
-            Route::get('/', [\App\Http\Controllers\ComiteController::class, 'index'])->name('index');
-            Route::post('/', [\App\Http\Controllers\ComiteController::class, 'store'])->name('store');
-            Route::patch('{member}/deactivate', [\App\Http\Controllers\ComiteController::class, 'deactivate'])->name('deactivate');
-            Route::patch('{member}/reactivate', [\App\Http\Controllers\ComiteController::class, 'reactivate'])->name('reactivate');
-            Route::delete('{member}', [\App\Http\Controllers\ComiteController::class, 'destroy'])->name('destroy');
+        // COMITÉ (admin, pasteur, secrétariat)
+        Route::get('/comite/members', [\App\Http\Controllers\ComiteController::class, 'index'])->name('comite.index');
+        Route::post('/comite/members', [\App\Http\Controllers\ComiteController::class, 'store'])->name('comite.store');
+        Route::patch('/comite/members/{member}/deactivate', [\App\Http\Controllers\ComiteController::class, 'deactivate'])->name('comite.deactivate');
+        Route::patch('/comite/members/{member}/reactivate', [\App\Http\Controllers\ComiteController::class, 'reactivate'])->name('comite.reactivate');
+        Route::delete('/comite/members/{member}', [\App\Http\Controllers\ComiteController::class, 'destroy'])->name('comite.destroy');
 
-            Route::get('reunions', [\App\Http\Controllers\ComiteMeetingController::class, 'index'])->name('meetings');
-            Route::post('reunions', [\App\Http\Controllers\ComiteMeetingController::class, 'store'])->name('meetings.store');
-            Route::delete('reunions/{meeting}', [\App\Http\Controllers\ComiteMeetingController::class, 'destroy'])->name('meetings.destroy');
-        });
+        Route::get('/comite/meetings', [\App\Http\Controllers\ComiteMeetingController::class, 'index'])->name('comite.meetings');
+        Route::post('/comite/meetings', [\App\Http\Controllers\ComiteMeetingController::class, 'store'])->name('comite.meetings.store');
+        Route::delete('/comite/meetings/{meeting}', [\App\Http\Controllers\ComiteMeetingController::class, 'destroy'])->name('comite.meetings.destroy');
+
+        // EQUIPE CONSTRUCTION (admin, pasteur, secrétariat, direction_culte)
+        Route::get('/construction/members', [\App\Http\Controllers\ConstructionController::class, 'index'])->name('construction.index');
+        Route::post('/construction/members', [\App\Http\Controllers\ConstructionController::class, 'store'])->name('construction.store');
+        Route::patch('/construction/members/{member}/deactivate', [\App\Http\Controllers\ConstructionController::class, 'deactivate'])->name('construction.deactivate');
+        Route::patch('/construction/members/{member}/reactivate', [\App\Http\Controllers\ConstructionController::class, 'reactivate'])->name('construction.reactivate');
+        Route::delete('/construction/members/{member}', [\App\Http\Controllers\ConstructionController::class, 'destroy'])->name('construction.destroy');
+
+        Route::get('/construction/projects', [\App\Http\Controllers\ConstructionProjectController::class, 'index'])->name('construction.projects');
+        Route::post('/construction/projects', [\App\Http\Controllers\ConstructionProjectController::class, 'store'])->name('construction.projects.store');
+        Route::put('/construction/projects/{project}', [\App\Http\Controllers\ConstructionProjectController::class, 'update'])->name('construction.projects.update');
+        Route::delete('/construction/projects/{project}', [\App\Http\Controllers\ConstructionProjectController::class, 'destroy'])->name('construction.projects.destroy');
+
     });
 
     // -----------------------------------------------------------
