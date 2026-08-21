@@ -85,11 +85,11 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-center whitespace-nowrap">
-                                    <form action="{{ route('construction.projects.destroy', $project) }}" method="POST" class="inline"
-                                          onsubmit="return confirm('Supprimer ce projet ?');">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">Supprimer</button>
-                                    </form>
+                                    <button type="button"
+                                        onclick="openDeleteProjectModal('{{ route('construction.projects.destroy', $project) }}', @js($project->libelle))"
+                                        class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">
+                                        Supprimer
+                                    </button>
                                 </td>
                             </tr>
                             @empty
@@ -152,4 +152,45 @@
 
     </div>
 </div>
+
+{{-- Modal : Supprimer un projet --}}
+<div id="deleteProjectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-sm">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-red-600 text-lg">⚠️</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">Supprimer le projet</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-5">
+            Êtes-vous sûr de vouloir supprimer le projet
+            <span id="deleteProjectName" class="font-semibold text-gray-900"></span> ?
+            Le rapport associé sera également supprimé. Cette action est irréversible.
+        </p>
+        <form id="deleteProjectForm" method="POST" class="flex gap-2">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                class="flex-1 inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-md"
+                style="background:#dc2626">
+                Supprimer
+            </button>
+            <button type="button" onclick="closeDeleteProjectModal()"
+                class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-300">
+                Annuler
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openDeleteProjectModal(actionUrl, libelle) {
+        document.getElementById('deleteProjectName').textContent = libelle;
+        document.getElementById('deleteProjectForm').action = actionUrl;
+        document.getElementById('deleteProjectModal').classList.remove('hidden');
+    }
+    function closeDeleteProjectModal() {
+        document.getElementById('deleteProjectModal').classList.add('hidden');
+    }
+</script>
 @endsection

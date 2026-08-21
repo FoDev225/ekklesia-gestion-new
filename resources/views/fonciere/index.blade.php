@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Équipe de construction')
-@section('page-title', 'Équipe de construction')
+@section('title', 'Cellule foncière')
+@section('page-title', 'Cellule foncière')
 
 @section('content')
 <div class="space-y-4">
@@ -10,12 +10,12 @@
         <div class="flex items-center gap-3">
             <a href="{{ route(auth()->user()->dashboardRoute()) }}" class="text-sm text-gray-500 hover:text-gray-700">← Dashboard</a>
             <span class="text-gray-300">/</span>
-            <span class="text-sm text-gray-700 font-medium">Équipe de construction</span>
+            <span class="text-sm text-gray-700 font-medium">Cellule foncière</span>
         </div>
-        <a href="{{ route('construction.projects') }}"
+        <a href="{{ route('dossiers') }}"
            class="inline-flex items-center px-4 py-2 text-white text-sm font-medium rounded-md"
            style="background:#1a2e4a">
-            🏗️ Projets de construction
+            📁 Dossiers fonciers
         </a>
     </div>
 
@@ -36,7 +36,7 @@
 
             <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                 <div class="px-4 py-3 border-b border-gray-200" style="background:#3A9BDC">
-                    <h3 class="text-sm font-semibold text-white uppercase">Membres de l'équipe</h3>
+                    <h3 class="text-sm font-semibold text-white uppercase">Membres de la cellule</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
@@ -62,15 +62,15 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3 text-gray-600">{{ $member->believer->profession?->profession ?? '—' }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $member->believer->address?->whatsapp ?? '—' }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $member->contact ?? $member->believer->address?->phone ?? '—' }}</td>
                             <td class="px-4 py-3 text-center whitespace-nowrap">
                                 <button type="button"
-                                    onclick="openDeactivateModal('{{ route('construction.deactivate', $member) }}', @js($member->believer->full_name))"
+                                    onclick="openDeactivateModal('{{ route('fonciere.deactivate', $member) }}', @js($member->believer->full_name))"
                                     class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded">
                                     Désactiver
                                 </button>
                                 <button type="button"
-                                    onclick="openRemoveModal('{{ route('construction.destroy', $member) }}', @js($member->believer->full_name))"
+                                    onclick="openRemoveModal('{{ route('fonciere.destroy', $member) }}', @js($member->believer->full_name))"
                                     class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">
                                     Retirer
                                 </button>
@@ -96,7 +96,7 @@
                             <td class="px-4 py-3">{{ $member->role }}</td>
                             <td class="px-4 py-3">Sorti le {{ $member->left_at?->format('d/m/Y') }}</td>
                             <td class="px-4 py-3 text-center">
-                                <form action="{{ route('construction.reactivate', $member) }}" method="POST" class="inline">
+                                <form action="{{ route('fonciere.reactivate', $member) }}" method="POST" class="inline">
                                     @csrf @method('PATCH')
                                     <button type="submit" class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">Réactiver</button>
                                 </form>
@@ -113,7 +113,7 @@
         <div class="md:col-span-1">
             <div class="bg-white shadow-sm rounded-lg p-4">
                 <h3 class="text-sm font-semibold text-gray-700 uppercase mb-3">Attribuer un membre</h3>
-                <form action="{{ route('construction.store') }}" method="POST" class="space-y-3">
+                <form action="{{ route('fonciere.store') }}" method="POST" class="space-y-3">
                     @csrf
                     <div>
                         <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Fidèle <span class="text-red-500">*</span></label>
@@ -131,7 +131,7 @@
                         <select name="role" required
                             class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
                             <option value="">— Sélectionner —</option>
-                            @foreach(\App\Models\EquipeConstruction::ROLES as $r)
+                            @foreach(\App\Models\EquipeFonciere::ROLES as $r)
                                 <option value="{{ $r }}" @selected(old('role') === $r)>{{ $r }}</option>
                             @endforeach
                         </select>
@@ -173,7 +173,7 @@
         <p class="text-sm text-gray-600 mb-5">
             Voulez-vous désactiver
             <span id="deactivateMemberName" class="font-semibold text-gray-900"></span>
-            de l'équipe de construction ? Il restera visible dans les anciens membres et pourra être réactivé plus tard.
+            de la cellule foncière ? Il restera visible dans les anciens membres et pourra être réactivé plus tard.
         </p>
         <form id="deactivateForm" method="POST" class="flex gap-2">
             @csrf
@@ -203,7 +203,7 @@
         <p class="text-sm text-gray-600 mb-5">
             Êtes-vous sûr de vouloir retirer définitivement
             <span id="removeMemberName" class="font-semibold text-gray-900"></span>
-            de l'équipe de construction ? Cette action est irréversible.
+            de la cellule foncière ? Cette action est irréversible.
         </p>
         <form id="removeForm" method="POST" class="flex gap-2">
             @csrf

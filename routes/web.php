@@ -173,6 +173,18 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
         Route::put('/construction/projects/{project}', [\App\Http\Controllers\ConstructionProjectController::class, 'update'])->name('construction.projects.update');
         Route::delete('/construction/projects/{project}', [\App\Http\Controllers\ConstructionProjectController::class, 'destroy'])->name('construction.projects.destroy');
 
+        // EQUIPE FONCIERE (admin, pasteur, secrétariat, direction_culte)
+        Route::get('/fonciere', [\App\Http\Controllers\EquipeFoncieteController::class, 'index'])->name('fonciere.index');
+        Route::post('/fonciere', [\App\Http\Controllers\EquipeFoncieteController::class, 'store'])->name('fonciere.store');
+        Route::patch('/fonciere/{member}/deactivate', [\App\Http\Controllers\EquipeFoncieteController::class, 'deactivate'])->name('fonciere.deactivate');
+        Route::patch('/fonciere/{member}/reactivate', [\App\Http\Controllers\EquipeFoncieteController::class, 'reactivate'])->name('fonciere.reactivate');
+        Route::delete('/fonciere/{member}', [\App\Http\Controllers\EquipeFoncieteController::class, 'destroy'])->name('fonciere.destroy');
+
+        Route::get('/dossiers', [\App\Http\Controllers\DossierFoncierController::class, 'index'])->name('dossiers');
+        Route::post('/dossiers', [\App\Http\Controllers\DossierFoncierController::class, 'store'])->name('dossiers.store');
+        Route::put('/dossiers/{dossier}', [\App\Http\Controllers\DossierFoncierController::class, 'update'])->name('dossiers.update');
+        Route::delete('/dossiers/{dossier}', [\App\Http\Controllers\DossierFoncierController::class, 'destroy'])->name('dossiers.destroy');
+
     });
 
     // -----------------------------------------------------------

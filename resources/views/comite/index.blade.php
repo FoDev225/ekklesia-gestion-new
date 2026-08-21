@@ -65,20 +65,16 @@
                             <td class="px-4 py-3 text-gray-600">{{ $member->believer->profession?->profession ?? '—' }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $member->believer->address?->whatsapp ?? '—' }}</td>
                             <td class="px-4 py-3 text-center whitespace-nowrap">
-                                <form action="{{ route('comite.deactivate', $member) }}" method="POST" class="inline"
-                                    onsubmit="return confirm('Désactiver ce membre du comité ?');">
-                                    @csrf @method('PATCH')
-                                    <button type="submit" class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded">
-                                        Désactiver
-                                    </button>
-                                </form>
-                                <form action="{{ route('comite.destroy', $member) }}" method="POST" class="inline"
-                                    onsubmit="return confirm('Retirer définitivement ce membre ?');">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">
-                                        Retirer
-                                    </button>
-                                </form>
+                                <button type="button"
+                                    onclick="openDeactivateModal('{{ route('comite.deactivate', $member) }}', @js($member->believer->full_name))"
+                                    class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded">
+                                    Désactiver
+                                </button>
+                                <button type="button"
+                                    onclick="openRemoveModal('{{ route('comite.destroy', $member) }}', @js($member->believer->full_name))"
+                                    class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">
+                                    Retirer
+                                </button>
                             </td>
                         </tr>
                         @empty
@@ -165,13 +161,83 @@
 
 </div>
 
-<script>
-    const rolesGestion = @json(\App\Models\Comite::ROLES_GESTION);
+{{-- Modal : Désactiver un membre --}}
+<div id="deactivateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-sm">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-yellow-600 text-lg">⏸</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">Désactiver le membre</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-5">
+            Voulez-vous désactiver
+            <span id="deactivateMemberName" class="font-semibold text-gray-900"></span>
+            du comité ? Il restera visible dans les anciens membres et pourra être réactivé plus tard.
+        </p>
+        <form id="deactivateForm" method="POST" class="flex gap-2">
+            @csrf
+            @method('PATCH')
+            <button type="submit"
+                class="flex-1 inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-md"
+                style="background:#C9A635">
+                Désactiver
+            </button>
+            <button type="button" onclick="closeDeactivateModal()"
+                class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-300">
+                Annuler
+            </button>
+        </form>
+    </div>
+</div>
 
-    function updateRoleOptions(type) {
-        const datalist = document.getElementById('role_suggestions');
-        const roles = type === 'controle' ? rolesControle : rolesGestion;
-        datalist.innerHTML = roles.map(r => `<option value="${r}">`).join('');
+{{-- Modal : Retirer définitivement un membre --}}
+<div id="removeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-sm">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-red-600 text-lg">⚠️</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-900">Retirer définitivement</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-5">
+            Êtes-vous sûr de vouloir retirer définitivement
+            <span id="removeMemberName" class="font-semibold text-gray-900"></span>
+            du comité ? Cette action est irréversible.
+        </p>
+        <form id="removeForm" method="POST" class="flex gap-2">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                class="flex-1 inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-md"
+                style="background:#dc2626">
+                Retirer
+            </button>
+            <button type="button" onclick="closeRemoveModal()"
+                class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-300">
+                Annuler
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openDeactivateModal(actionUrl, name) {
+        document.getElementById('deactivateMemberName').textContent = name;
+        document.getElementById('deactivateForm').action = actionUrl;
+        document.getElementById('deactivateModal').classList.remove('hidden');
+    }
+    function closeDeactivateModal() {
+        document.getElementById('deactivateModal').classList.add('hidden');
+    }
+
+    function openRemoveModal(actionUrl, name) {
+        document.getElementById('removeMemberName').textContent = name;
+        document.getElementById('removeForm').action = actionUrl;
+        document.getElementById('removeModal').classList.remove('hidden');
+    }
+    function closeRemoveModal() {
+        document.getElementById('removeModal').classList.add('hidden');
     }
 </script>
 @endsection
