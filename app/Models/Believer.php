@@ -206,7 +206,12 @@ class Believer extends Model
     public function fonciereMembership()
     {
         return $this->hasMany(EquipeFonciere::class);
-    }   
+    }
+    // Conseil Membership relation
+    public function conseilMembership()
+    {
+        return $this->hasMany(Conseil::class);
+    } 
 
     // -------------------------------------------------------
     // Scopes

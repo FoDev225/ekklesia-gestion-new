@@ -161,6 +161,18 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
         Route::post('/comite/meetings', [\App\Http\Controllers\ComiteMeetingController::class, 'store'])->name('comite.meetings.store');
         Route::delete('/comite/meetings/{meeting}', [\App\Http\Controllers\ComiteMeetingController::class, 'destroy'])->name('comite.meetings.destroy');
 
+        // CONSEIL (admin, pasteur, secrétariat)
+        Route::get('/conseil/members', [\App\Http\Controllers\ConseilController::class, 'index'])->name('conseil.index');
+        Route::post('/conseil/members', [\App\Http\Controllers\ConseilController::class, 'store'])->name('conseil.store');
+        Route::patch('/conseil/members/{member}/deactivate', [\App\Http\Controllers\ConseilController::class, 'deactivate'])->name('conseil.deactivate');
+        Route::patch('/conseil/members/{member}/reactivate', [\App\Http\Controllers\ConseilController::class, 'reactivate'])->name('conseil.reactivate');
+        Route::delete('/conseil/members/{member}', [\App\Http\Controllers\ConseilController::class, 'destroy'])->name('conseil.destroy');
+
+
+        Route::get('/conseil/ag', [\App\Http\Controllers\ConseilAgController::class, 'index'])->name('conseil.ag');
+        Route::post('/conseil/ag', [\App\Http\Controllers\ConseilAgController::class, 'store'])->name('conseil.ag.store');
+        Route::delete('/conseil/ag/{ag}', [\App\Http\Controllers\ConseilAgController::class, 'destroy'])->name('conseil.ag.destroy');
+
         // EQUIPE CONSTRUCTION (admin, pasteur, secrétariat, direction_culte)
         Route::get('/construction/members', [\App\Http\Controllers\ConstructionController::class, 'index'])->name('construction.index');
         Route::post('/construction/members', [\App\Http\Controllers\ConstructionController::class, 'store'])->name('construction.store');

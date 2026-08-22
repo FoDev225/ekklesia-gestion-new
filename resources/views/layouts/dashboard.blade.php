@@ -131,15 +131,20 @@
 
             {{-- Équipes & Activités --}}
             <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Groupes</p>
-            @hasanyrole('admin|pasteur')
-            <a href="{{ route('teams.index') }}"
-               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
-                <span>🤝</span> Groupes
-            </a>
-
+            @hasanyrole('admin|pasteur|secretariat')
             <a href="{{ route('comite.index') }}"
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
                 <span>🤝</span> Comite
+            </a>
+
+             <a href="{{ route('conseil.index') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+                <span>🤝</span> Conseil
+            </a>
+
+            <a href="{{ route('teams.index') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+                <span>🤝</span> Groupes
             </a>
             @endhasanyrole
 
@@ -158,7 +163,7 @@
 
             <a href="{{ route('fonciere.index') }}"
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
-                <span>👥</span> Equipe de Foncière
+                <span>👥</span> Equipe Foncière
             </a>
             @endhasanyrole
 
