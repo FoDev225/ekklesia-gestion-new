@@ -12,6 +12,16 @@ use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
+    /**
+     * Nombre max de tentatives de connexion avant le blocage.
+     */
+    protected int $maxAttempts = 3;
+
+    /**
+     * Durée du blocage en secondes
+     */
+    protected int $lockoutSeconds = 300; // 5 minutes
+
     public function authorize(): bool
     {
         return true;
@@ -48,7 +58,7 @@ class LoginRequest extends FormRequest
             $this->only('username', 'password'),
             $this->boolean('remember')
         )) {
-            RateLimiter::hit($this->throttleKey());
+            RateLimiter::hit($this->throttleKey(), $this->lockoutSeconds);
 
             throw ValidationException::withMessages([
                 'username' => 'Identifiants incorrects. Vérifiez votre nom d\'utilisateur et mot de passe.',
@@ -60,7 +70,7 @@ class LoginRequest extends FormRequest
         // Vérifier que le compte est actif
         if (! $user->is_active) {
             Auth::logout();
-            RateLimiter::hit($this->throttleKey());
+            RateLimiter::hit($this->throttleKey(), $this->lockoutSeconds);
 
             throw ValidationException::withMessages([
                 'username' => 'Votre compte est désactivé. Contactez l\'administrateur.',
@@ -72,7 +82,7 @@ class LoginRequest extends FormRequest
 
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), $this->maxAttempts)) {
             return;
         }
 

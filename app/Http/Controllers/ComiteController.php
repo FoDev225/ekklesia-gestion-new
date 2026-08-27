@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Believer;
 use App\Models\Comite;
+use App\Services\ActivityLogger;
 use App\Http\Requests\ComiteMembersRequest;
 
 class ComiteController extends Controller
@@ -35,6 +36,8 @@ class ComiteController extends Controller
             'joined_at' => $request->joined_at ?? now(),
             'is_active' => true,
         ]);
+
+        ActivityLogger::log("A attribué {$member->believer->full_name} au comité — fonction : {$member->role}");
 
         return redirect()
             ->route('comite.index')
@@ -67,6 +70,8 @@ class ComiteController extends Controller
 
     public function destroy(Comite $member)
     {
+        ActivityLogger::log("A retiré {$member->believer->full_name} du comité");
+
         $member->delete();
 
         return redirect()

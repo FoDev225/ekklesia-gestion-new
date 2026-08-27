@@ -209,6 +209,11 @@
                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm {{ request()->routeIs('users*') ? 'active' : '' }}">
                 <span>👤</span> Utilisateurs
             </a>
+
+            <a href="{{ route('activity-logs.index') }}"
+                class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
+                    <span>📜</span> Journal d'activité
+            </a>
             @endhasrole
 
         </nav>

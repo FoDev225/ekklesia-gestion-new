@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\Sanction;
 use App\Models\Departure;
 use App\Models\Church;
+use App\Services\ActivityLogger;
 use App\Http\Requests\BelieverFormRequest;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -241,6 +242,8 @@ class BelieverController extends Controller
             'decided_by'  => $request->decided_by,
             'is_active'   => true,
         ]);
+        
+        ActivityLogger::log("A sanctionné {$believer->full_name} — motif : {$request->reason}");
  
         // Mettre à jour le statut du fidèle
         $believer->update([
@@ -272,6 +275,8 @@ class BelieverController extends Controller
                 'lift_note'  => $request->lift_note,
             ]);
         }
+        
+        ActivityLogger::log("A levé la sanction de {$believer->full_name}");
  
         $believer->update([
             'status'    => 'actif',
@@ -304,6 +309,8 @@ class BelieverController extends Controller
             'reason'         => $request->departure_reason,
             'recorded_by'    => auth()->user()->name,
         ]);
+        
+        ActivityLogger::log("A enregistré le départ de {$believer->full_name} — type : {$request->departure_type}");
  
         // Mettre à jour le statut
         $status = $request->departure_type === 'deces' ? 'decede' : 'parti';
@@ -394,6 +401,7 @@ class BelieverController extends Controller
 
     public function destroy(Believer $believer)
     {
+        ActivityLogger::log("A archivé le fidèle {$believer->full_name} (#{$believer->id})");
         $believer->delete();
 
         return redirect()

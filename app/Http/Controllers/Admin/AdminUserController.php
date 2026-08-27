@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Believer;
 use App\Models\Team;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -78,6 +79,8 @@ class AdminUserController extends Controller
             'must_change_password' => true,
         ]);
 
+        ActivityLogger::log("A créé le compte utilisateur {$user->username} (rôle : {$request->role})");
+
         // Attribuer le rôle
         $user->assignRole($request->role);
 
@@ -92,7 +95,7 @@ class AdminUserController extends Controller
                 'username' => $username,
                 'password' => $tempPassword,
                 'role'     => $request->role,
-            ]);
+            ]);  
     }
 
     public function edit(User $user)
@@ -128,6 +131,8 @@ class AdminUserController extends Controller
         $user->update(['is_active' => !$user->is_active]);
 
         $status = $user->is_active ? 'activé' : 'désactivé';
+        ActivityLogger::log("A {$status} le compte {$user->username}");
+
         return redirect()->back()
             ->with('success', "Compte de {$user->name} {$status}.");
     }
@@ -141,6 +146,8 @@ class AdminUserController extends Controller
             'must_change_password' => true,
             'password_changed_at'  => null,
         ]);
+        
+        ActivityLogger::log("A réinitialisé le mot de passe de {$user->username}");
 
         return redirect()->back()
             ->with('password_reset', [
@@ -156,6 +163,8 @@ class AdminUserController extends Controller
             return redirect()->back()
                 ->with('error', 'Impossible de supprimer le seul administrateur.');
         }
+
+        ActivityLogger::log("A supprimé le compte utilisateur {$user->username}");
 
         $user->delete();
 

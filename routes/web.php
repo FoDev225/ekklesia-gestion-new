@@ -61,14 +61,16 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
         ->group(function () {
             Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'admin'])->name('dashboard.admin');
             Route::resource('users', \App\Http\Controllers\Admin\AdminUserController::class);
-        });
+
+            Route::get('activity-logs', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('activity-logs.index');
+    });
 
     // PASTEUR
     Route::middleware('role:pasteur|admin')
         ->prefix('pasteur')
         ->group(function () {
             Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'pasteur'])->name('dashboard.pasteur');
-        });
+    });
 
     // SECRÉTARIAT
     Route::middleware('role:secretariat|admin')
