@@ -33,12 +33,6 @@
         </div>
     </div>
 
-    @if(session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-        {{ session('success') }}
-    </div>
-    @endif
-
     {{-- En-tête équipe --}}
     <div class="bg-white shadow-sm rounded-lg p-4 flex items-center justify-between">
         <div>
@@ -314,7 +308,7 @@
                     @csrf
                     <div>
                         <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Fidèle</label>
-                        <select name="believer_id" class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('believer_id') border-red-500 @enderror" required>
+                        <select name="believer_id" class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select @error('believer_id') border-red-500 @enderror" required>
                             <option value="">— Sélectionner —</option>
                             @foreach ($availableBelievers as $believer)
                                 <option value="{{ $believer->id }}">{{ $believer->full_name ?? $believer->name }}</option>

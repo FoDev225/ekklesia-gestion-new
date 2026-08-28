@@ -63,7 +63,7 @@
                     </label>
                     <select name="father_id" id="father_id" required
                         onchange="fillParent('father', this.value)"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('father_id') border-red-300 @enderror">
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select @error('father_id') border-red-300 @enderror">
                         <option value="">-- Sélectionner le père --</option>
                         @foreach($believers->whereIn('gender', ['M']) as $b)
                             <option value="{{ $b->id }}" @selected(old('father_id') == $b->id)>
@@ -71,14 +71,6 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('father_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    <div class="mt-2">
-                        <label class="block text-xs text-gray-500">Nom affiché sur la fiche (si différent)</label>
-                        <input type="text" name="father_name" id="father_name"
-                            value="{{ old('father_name') }}"
-                            placeholder="Laisser vide pour utiliser le nom du fidèle"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-xs focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
                 </div>
 
                 {{-- Mère --}}
@@ -88,7 +80,7 @@
                     </label>
                     <select name="mother_id" id="mother_id" required
                         onchange="fillParent('mother', this.value)"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('mother_id') border-red-300 @enderror">
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select @error('mother_id') border-red-300 @enderror">
                         <option value="">-- Sélectionner la mère --</option>
                         @foreach($believers->whereIn('gender', ['F']) as $b)
                             <option value="{{ $b->id }}" @selected(old('mother_id') == $b->id)>
@@ -96,14 +88,6 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('mother_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    <div class="mt-2">
-                        <label class="block text-xs text-gray-500">Nom affiché sur la fiche (si différent)</label>
-                        <input type="text" name="mother_name" id="mother_name"
-                            value="{{ old('mother_name') }}"
-                            placeholder="Laisser vide pour utiliser le nom de la fidèle"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-xs focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
                 </div>
 
             </div>

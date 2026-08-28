@@ -13,15 +13,6 @@
         <span class="text-sm font-medium text-gray-700">Acteurs de culte</span>
     </div>
 
-    @if(session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">{{ session('success') }}</div>
-    @endif
-    @if($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        <ul class="list-disc list-inside text-sm">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
-    </div>
-    @endif
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
         {{-- Formulaire ajout --}}
@@ -32,7 +23,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Fidèle <span class="text-red-500">*</span></label>
                     <select name="believer_id" required
-                        class="mt-1 block w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select">
                         <option value="">-- Sélectionner --</option>
                         @foreach($believers as $b)
                         <option value="{{ $b->id }}">{{ $b->lastname }} {{ $b->firstname }}</option>

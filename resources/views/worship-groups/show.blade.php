@@ -28,13 +28,7 @@
                 Retour
             </a>
         </div>
-    </div>
-
-    @if(session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-        {{ session('success') }}
-    </div>
-    @endif
+    </div>s
 
     <div class="bg-white shadow-sm rounded-lg p-4 flex items-center justify-between">
         <div>
@@ -191,7 +185,7 @@
                             Fidèle
                         </label>
                         <select name="believer_id" id="believer_id"
-                                class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('believer_id') border-red-500 @enderror"
+                                class="w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select @error('believer_id') border-red-500 @enderror"
                                 required>
                             <option value="">— Sélectionner —</option>
                             @foreach ($availableBelievers as $believer)

@@ -15,15 +15,6 @@
         <span class="text-sm font-medium text-gray-700">{{ $service->service_date?->format('d/m/Y') }}</span>
     </div>
 
-    @if(session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">{{ session('success') }}</div>
-    @endif
-    @if($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        <ul class="list-disc list-inside text-sm">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
-    </div>
-    @endif
-
     {{-- Entête culte --}}
     <div class="bg-white shadow-sm rounded-lg p-4 flex items-center justify-between">
         <div>
@@ -66,7 +57,7 @@
                 <div id="acteur_field">
                     <label class="block text-sm font-medium text-gray-700">Acteur <span class="text-red-500">*</span></label>
                     <select name="believer_id" id="acteur_select"
-                        class="mt-1 block w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select">
                         <option value="">-- Sélectionner un acteur --</option>
                         @foreach($acteurs as $roleId => $roleActeurs)
                             @foreach($roleActeurs as $acteur)

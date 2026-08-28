@@ -34,12 +34,6 @@
         </div>
     </div>
 
-    @if(session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-        {{ session('success') }}
-    </div>
-    @endif
-
     {{-- En-tête couple --}}
     <div class="bg-white shadow-sm rounded-lg p-6">
         <div class="flex items-center justify-center gap-8">

@@ -57,7 +57,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Père <span class="text-red-500">*</span></label>
                     <select name="father_id" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select">
                         <option value="">-- Sélectionner --</option>
                         @foreach($believers->where('gender', 'M') as $b)
                             <option value="{{ $b->id }}" @selected(old('father_id', $dedication->father_id) == $b->id)>
@@ -65,17 +65,11 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="mt-2">
-                        <label class="block text-xs text-gray-500">Nom affiché sur la fiche</label>
-                        <input type="text" name="father_name"
-                            value="{{ old('father_name', $dedication->father_name) }}"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-xs focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Mère <span class="text-red-500">*</span></label>
                     <select name="mother_id" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select">
                         <option value="">-- Sélectionner --</option>
                         @foreach($believers->where('gender', 'F') as $b)
                             <option value="{{ $b->id }}" @selected(old('mother_id', $dedication->mother_id) == $b->id)>
@@ -83,12 +77,6 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="mt-2">
-                        <label class="block text-xs text-gray-500">Nom affiché sur la fiche</label>
-                        <input type="text" name="mother_name"
-                            value="{{ old('mother_name', $dedication->mother_name) }}"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-xs focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
                 </div>
             </div>
         </div>
@@ -133,7 +121,7 @@
         </div>
 
         <div class="flex justify-between mt-3">
-            <a href="{{ route('dedication.show', $dedication) }}"
+            <a href="{{ route('dedication.index') }}"
                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300">Annuler</a>
             <button type="submit"
                 class="px-6 py-2 text-white rounded-md text-sm font-medium" style="background:#3FA46A">

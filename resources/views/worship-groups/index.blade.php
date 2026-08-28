@@ -22,12 +22,6 @@
         @endcan
     </div>
 
-    @if(session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-        {{ session('success') }}
-    </div>
-    @endif
-
     <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
         <div class="bg-white rounded-lg p-4 shadow-sm border-l-4" style="border-color:#C9A635">
             <p class="text-xs text-gray-500 uppercase font-medium">Total groupes</p>

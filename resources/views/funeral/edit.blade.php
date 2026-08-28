@@ -41,7 +41,7 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700">Fidèle <span class="text-red-500">*</span></label>
                     <select name="believer_id" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select">
                         @foreach($believers as $believer)
                             <option value="{{ $believer->id }}"
                                 @selected(old('believer_id', $funeral->believer_id) == $believer->id)>

@@ -29,6 +29,8 @@
         .stat-dore  { border-color: var(--dore);  background: #fdf8ea; }
         .stat-rouge { border-color: #e53e3e; background: #fff5f5; }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
@@ -179,27 +181,23 @@
             {{-- Finances --}}
             @hasanyrole('admin|pasteur|secretariat')
             <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Finances</p>
-            <a href="#"
-               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+            <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>💰</span> Transactions
-            </a>
-            <a href="#"
-               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+            </span>
+            <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>📋</span> Budgets
-            </a>
+            </span>
             @endhasanyrole
 
             {{-- Rapports --}}
             @hasanyrole('admin|pasteur')
             <p class="nav-section px-3 py-2 mt-4 uppercase">Rapports</p>
-            <a href="#"
-               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+            <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>📈</span> Statistiques
-            </a>
-            <a href="#"
-               class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm">
+            </span>
+            <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>📄</span> Rapports financiers
-            </a>
+            </span>
             @endhasanyrole
 
             {{-- Administration --}}
@@ -254,17 +252,6 @@
 
         {{-- Contenu principal --}}
         <main class="flex-1 overflow-y-auto p-6">
-            {{-- @if(session('success'))
-                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                    {{ session('error') }}
-                </div>
-            @endif --}}
-
             @yield('content')
         </main>
 
@@ -301,5 +288,52 @@
     </form>
 
     @vite(['resources/js/idle-timeout.js'])
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.js-believer-select').forEach(function (el) {
+                new Choices(el, {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    placeholder: true,
+                    placeholderValue: '— Sélectionner —',
+                    noResultsText: 'Aucun fidèle trouvé',
+                    noChoicesText: 'Aucun fidèle disponible',
+                    shouldSort: false,
+                });
+            });
+        });
+    </script>
+
+    <div id="toast-container" class="fixed top-0 left-0 lg:left-64 right-0 z-50 px-6 pt-4 space-y-2"></div>
+
+    <script>
+        function showToast(message, type = 'success') {
+            const colors = {
+                success: 'bg-green-100 border-green-400 text-green-700',
+                error:   'bg-red-100 border-red-400 text-red-700',
+                warning: 'bg-yellow-100 border-yellow-400 text-yellow-800',
+            };
+            const toast = document.createElement('div');
+            toast.className = `border px-4 py-3 rounded shadow-md w-full transition-opacity duration-500 ${colors[type] || colors.success}`;
+            toast.textContent = message;
+            document.getElementById('toast-container').appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        }
+
+        @if(session('success'))
+            showToast(@js(session('success')), 'success');
+        @endif
+        @if(session('error'))
+            showToast(@js(session('error')), 'error');
+        @endif
+        @if(session('warning'))
+            showToast(@js(session('warning')), 'warning');
+        @endif
+    </script>
 </body>
 </html>

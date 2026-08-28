@@ -93,7 +93,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Situation maritale</label>
                             <select name="marital_status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="">-- Choisir --</option>
+                                
                                 <option value="celibataire" @selected(old('marital_status', $believer->marital_status) === 'celibataire')>Célibataire</option>
                                 <option value="marie"       @selected(old('marital_status', $believer->marital_status) === 'marie')>Marié(e)</option>
                                 <option value="veuf"        @selected(old('marital_status', $believer->marital_status) === 'veuf')>Veuf/Veuve</option>

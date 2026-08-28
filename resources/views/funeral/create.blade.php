@@ -41,7 +41,7 @@
                         Fidèle <span class="text-red-500">*</span>
                     </label>
                     <select name="believer_id" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 @error('believer_id') border-red-300 @enderror">
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500 js-believer-select @error('believer_id') border-red-300 @enderror">
                         <option value="">-- Sélectionner un fidèle --</option>
                         @foreach($believers as $believer)
                             <option value="{{ $believer->id }}"
