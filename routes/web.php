@@ -89,6 +89,11 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
                 );
             })->name('believers.template');
 
+            Route::get('believers/export/matricules', [\App\Http\Controllers\BelieverExportController::class, 'exportMatricules'])
+                    ->name('believers.export.matricules');
+            Route::get('believers/photo-import', [\App\Http\Controllers\BelieverPhotoImportController::class, 'form'])->name('believers.photo-import.form');
+            Route::post('believers/photo-import', [\App\Http\Controllers\BelieverPhotoImportController::class, 'import'])->name('believers.photo-import');
+
             Route::resource('believers', \App\Http\Controllers\BelieverController::class);
             Route::resource('newcomers', \App\Http\Controllers\NewcomerController::class);
     });

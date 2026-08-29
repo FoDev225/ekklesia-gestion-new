@@ -223,9 +223,9 @@ class BelieverSeeder extends Seeder
             // -------------------------------------------------------
             $matchingTeam = match($ageGroup) {
                 'ecodim'  => $teams->firstWhere('slug', 'ecodim'),
-                'jeunes'  => $teams->firstWhere('slug', 'jeunesse'),
+                'jeunes'  => $teams->firstWhere('slug', 'j-aebeci'),
                 'adultes' => $maritalStatus === 'marie' && $gender === 'F'
-                                ? $teams->firstWhere('slug', 'femmes')
+                                ? $teams->firstWhere('slug', 'afebeci')
                                 : $teams->random(),
                 default   => null,
             };

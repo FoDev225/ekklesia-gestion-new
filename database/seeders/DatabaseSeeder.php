@@ -3,12 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
 
     /**
      * Seed the application's database.
@@ -20,6 +18,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class, // 2. Créer le compte admin par défaut
             BelieverSeeder::class,   // 3. Créer les croyants et leurs relations
             ChurchSeeder::class,    // 4. Créer l'église (singleton)
+            ServiceRoleSeeder::class, // 5. Créer les rôles de service
         ]);
     }
 }

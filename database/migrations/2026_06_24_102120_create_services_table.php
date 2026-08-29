@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('periodes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('general_theme')->nullable();
+            $table->string('general_theme');
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('is_active')->default(false);
@@ -34,6 +34,7 @@ return new class extends Migration
             $table->foreignId('periode_id')->constrained('periodes')->cascadeOnDelete();
             $table->date('service_date');
             $table->string('service_theme')->nullable();
+            $table->string('verset');
             $table->enum('service_type', ['commun', 'francais', 'senoufo', 'special'])->default('commun');
             $table->timestamps();
         });

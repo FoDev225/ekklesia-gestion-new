@@ -109,7 +109,8 @@ class ServiceController extends Controller
     {
         $request->validate([
             'service_date'  => 'required|date',
-            'service_theme' => 'nullable|string|max:255',
+            'service_theme' => 'string|max:255',
+            'verset' => 'string|max:255',
             'service_type'  => 'required|in:commun,francais,senoufo,special',
         ]);
 
@@ -119,7 +120,7 @@ class ServiceController extends Controller
             return redirect()->back()->withErrors(['service_date' => 'Un culte existe déjà à cette date dans cette période.'])->withInput();
         }
 
-        $periode->services()->create($request->only('service_date', 'service_theme', 'service_type'));
+        $periode->services()->create($request->only('service_date', 'service_theme', 'verset', 'service_type'));
 
         return redirect()->route('cultes.services', $periode)
             ->with('success', 'Culte ajouté.');

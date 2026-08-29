@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 @if($nextSundayService->service_theme)
-                    <p class="text-sm text-orange-700 mt-3 italic">Thème : {{ $nextSundayService->service_theme }}</p>
+                    <p class="text-sm text-orange-700 mt-3 italic">Thème : {{ $nextSundayService->service_theme }} - Texte(s) : {{ $nextSundayService->verset }}</p>
                 @endif
             </div>
         </div>
@@ -125,10 +125,14 @@
                     <option value="special">Spécial</option>
                 </select>
             </div>
-            <div class="md:col-span-2">
+            <div class="md:col-span-1">
                 <label class="block text-xs text-gray-500 mb-1">Thème du culte</label>
                 <input type="text" name="service_theme" value="{{ old('service_theme') }}"
-                    placeholder="Optionnel..."
+                    class="block w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="md:col-span-1">
+                <label class="block text-xs text-gray-500 mb-1">Verset</label>
+                <input type="text" name="verset" value="{{ old('verset') }}"
                     class="block w-full border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
             </div>
             <div class="md:col-span-4 text-right">

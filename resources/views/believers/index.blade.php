@@ -34,6 +34,12 @@
                style="background:#C9A635" title="Importer une liste Excel">
                 ⬆ Import
             </a>
+
+            <a href="{{ route('believers.photo-import.form') }}"
+                class="inline-flex items-center gap-1 px-3 py-2 text-white text-xs font-medium rounded-md"
+                style="background:#7c3aed">
+                    📷 Photos
+            </a>
             @endcan
  
             {{-- Nouveau fidèle --}}
@@ -165,6 +171,9 @@
                                     <a href="{{ route('believers.show', $believer) }}" class="hover:text-indigo-600">
                                         {{ $believer->full_name }}
                                     </a>
+                                    <div class="text-xs text-gray-400 font-normal font-mono">
+                                        {{ $believer->register_number ?? '—' }}
+                                    </div>
                                     @if($believer->is_sanctioned ?? false)
                                         <span class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded">Sanction</span>
                                     @endif

@@ -75,4 +75,14 @@ class BelieverExportController extends Controller
                 'errors'   => $import->errors,
             ]);
     }
+
+    public function exportMatricules(Request $request)
+    {
+        $believers = Believer::orderBy('lastname')->get(['id', 'lastname', 'firstname', 'register_number']);
+
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\BelieverMatriculesExport($believers),
+            'liste-matricules-photos.xlsx'
+        );
+    }
 }
