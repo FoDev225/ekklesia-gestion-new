@@ -7,7 +7,7 @@
 @section('doc-body')
 <style>
     .meta-line {
-        font-size: 11px;
+        font-size: 14px;
         color: #555;
         margin-bottom: 18px;
         text-align: right;
@@ -18,7 +18,7 @@
         border-radius: 5px;
         padding: 16px 18px;
         margin-bottom: 18px;
-        font-size: 12.5px;
+        font-size: 14px;
         line-height: 2;
         color: #222;
     }
@@ -27,7 +27,7 @@
     .section-title {
         background: #1F4E79;
         color: white;
-        font-size: 11px;
+        font-size: 14px;
         font-weight: bold;
         padding: 8px 14px;
         text-transform: uppercase;
@@ -57,7 +57,7 @@
         vertical-align: top;
     }
     .col-title {
-        font-size: 11px;
+        font-size: 14px;
         font-weight: bold;
         color: #1F4E79;
         border-bottom: 1px solid #e5e7eb;
@@ -76,13 +76,13 @@
     .field-label {
         display: table-cell;
         width: 50%;
-        font-size: 11px;
+        font-size: 14px;
         color: #6b7280;
     }
     .field-value {
         display: table-cell;
         width: 50%;
-        font-size: 11px;
+        font-size: 14px;
         font-weight: bold;
         color: #111;
     }
@@ -90,7 +90,7 @@
     .assistance-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 11px;
+        font-size: 14px;
         margin-bottom: 16px;
     }
     .assistance-table th {
@@ -104,7 +104,7 @@
     .assistance-table td {
         padding: 9px 14px;
         border-bottom: 1px solid #e5e7eb;
-        font-size: 11px;
+        font-size: 14px;
     }
     .assistance-table tr:nth-child(even) td { background: #f9fafb; }
     .assistance-table .amount { font-weight: bold; color: #3FA46A; }
@@ -113,7 +113,7 @@
         display: inline-block;
         padding: 4px 12px;
         border-radius: 10px;
-        font-size: 9.5px;
+        font-size: 14px;
         font-weight: bold;
     }
     .rel-pere   { background: #dbeafe; color: #1e40af; }
@@ -128,7 +128,7 @@
     .sig-cell {
         display: table-cell;
         text-align: center;
-        font-size: 10.5px;
+        font-size: 14px;
         font-weight: bold;
         color: #374151;
         width: 33.33%;

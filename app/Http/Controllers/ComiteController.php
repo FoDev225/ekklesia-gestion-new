@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Believer;
 use App\Models\Comite;
-use App\Services\ActivityLogger;
+use App\Support\ActivityLogger;
 use App\Http\Requests\ComiteMembersRequest;
 
 class ComiteController extends Controller
@@ -31,7 +31,7 @@ class ComiteController extends Controller
 
     public function store(ComiteMembersRequest $request)
     {
-        Comite::create([
+        $member = Comite::create([
             ...$request->validated(),
             'joined_at' => $request->joined_at ?? now(),
             'is_active' => true,

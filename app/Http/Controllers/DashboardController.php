@@ -47,6 +47,10 @@ class DashboardController extends Controller
             return redirect()->route('dashboard.ecodim');
         }
 
+        if ($user->hasRole('tresorier')) {
+            return redirect()->route('finances.index');
+        }
+
         if ($user->hasRole('acteur_culte')) {
             $periode = Periode::where('is_active', true)->first()
                 ?? Periode::orderByDesc('start_date')->first();

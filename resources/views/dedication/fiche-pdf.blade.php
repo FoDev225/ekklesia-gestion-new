@@ -8,13 +8,13 @@
 <style>
     .city-date {
         text-align: right;
-        font-size: 10px;
+        font-size: 14px;
         color: #333;
         margin-bottom: 12px;
     }
 
     .intro-text {
-        font-size: 10px;
+        font-size: 14px;
         line-height: 2;
         color: #222;
         margin-bottom: 14px;
@@ -49,7 +49,7 @@
         border-right: 1px solid #d1d5db;
     }
     .parent-title {
-        font-size: 9px;
+        font-size: 14px;
         font-weight: bold;
         text-transform: uppercase;
         color: #1F4E79;
@@ -58,10 +58,10 @@
         padding-bottom: 3px;
     }
     .p-row { display: table; width: 100%; padding: 3px 0; }
-    .p-label { display: table-cell; width: 45%; font-size: 8.5px; color: #6b7280; }
+    .p-label { display: table-cell; width: 45%; font-size: 14px; color: #6b7280; }
     .p-value {
         display: table-cell;
-        font-size: 8.5px;
+        font-size: 14px;
         font-weight: bold;
         color: #111;
         border-bottom: 1px dotted #ccc;
@@ -77,7 +77,7 @@
         display: table-cell;
         width: 33.33%;
         text-align: center;
-        font-size: 8.5px;
+        font-size: 14px;
         font-weight: bold;
         color: #374151;
     }
@@ -103,10 +103,10 @@
         Mariés le <span class="underlined">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         à <span class="underlined">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     @endif
-    <br>
-    Sommes reconnaissants que le Seigneur nous ait fait don d'un enfant de sexe
+    
+     sommes reconnaissants que le Seigneur nous ait fait don d'un enfant de sexe.
     <span class="bold">{{ $dedication->gender }}</span>
-    <br>
+    
     Que nous avons nommé <span class="underlined">{{ $dedication->child_full_name }}</span>.
     <br>
     Il/elle est né(e) le <span class="bold">{{ $dedication->child_birthdate?->format('d/m/Y') }}</span>
@@ -148,7 +148,7 @@
             <div class="p-label">Carte de membre N° :</div>
             <div class="p-value">{{ $dedication->father?->churchInformation?->baptism_card_number ?? '—' }}</div>
         </div>
-        <div style="font-size:8.5px; font-weight:bold; margin-top:18px; text-align:center;">
+        <div style="font-size:14px; font-weight:bold; margin-top:18px; text-align:center;">
             Signature du père
         </div>
         <div style="border-top:1px solid #333; margin:20px 20px 0 20px;"></div>
@@ -181,7 +181,7 @@
             <div class="p-label">Carte de membre N° :</div>
             <div class="p-value">{{ $dedication->mother?->churchInformation?->baptism_card_number ?? '—' }}</div>
         </div>
-        <div style="font-size:8.5px; font-weight:bold; margin-top:18px; text-align:center;">
+        <div style="font-size:14px; font-weight:bold; margin-top:18px; text-align:center;">
             Signature de la mère
         </div>
         <div style="border-top:1px solid #333; margin:20px 20px 0 20px;"></div>

@@ -130,6 +130,7 @@ class User extends Authenticatable
             'jaebeci' => 'J-AEBECI',
             'afebeci'  => 'AFEBECI',
             'direction_ecodim'   => 'Direction ECODIM',
+            'tresorier'   => 'Trésorier',
             default          => '—',
         };
     }

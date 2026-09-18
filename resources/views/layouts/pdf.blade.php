@@ -7,7 +7,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.6;
             color: #222;
             background: #fff;
@@ -52,13 +52,13 @@
             text-align: center;
         }
         .church-header-info .org-name {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             color: #1F4E79;
             line-height: 1.4;
         }
         .church-header-info .district {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             color: #333;
             margin-top: 4px;
@@ -126,7 +126,7 @@
         .box-header {
             background: #1F4E79;
             color: white;
-            font-size: 11px;
+            font-size: 14px;
             font-weight: bold;
             padding: 8px 14px;
             text-transform: uppercase;
@@ -136,14 +136,14 @@
 
         .info-row { display: table; width: 100%; padding: 6px 0; border-bottom: 1px solid #f3f4f6; }
         .info-row:last-child { border-bottom: none; }
-        .info-label { display: table-cell; color: #6b7280; font-size: 13px; width: 45%; }
-        .info-value { display: table-cell; font-weight: bold; font-size: 13px; color: #111; }
+        .info-label { display: table-cell; color: #6b7280; font-size: 15px; width: 45%; }
+        .info-value { display: table-cell; font-weight: bold; font-size: 15px; color: #111; }
 
         .tag {
             display: inline-block;
             padding: 3px 9px;
             border-radius: 10px;
-            font-size: 9.5px;
+            font-size: 14px;
             font-weight: bold;
             margin: 2px 3px 2px 0;
         }
@@ -151,7 +151,7 @@
         .empty-val { color: #9ca3af; font-style: italic; font-weight: normal; }
 
         .signature-row { display: table; width: 100%; margin-top: 50px; }
-        .signature-cell { display: table-cell; text-align: center; font-size: 10px; font-weight: bold; color: #374151; }
+        .signature-cell { display: table-cell; text-align: center; font-size: 14px; font-weight: bold; color: #374151; }
         .signature-line { border-top: 1px solid #333; margin: 0 24px; margin-top: 45px; }
     </style>
 </head>

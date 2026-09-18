@@ -179,18 +179,28 @@
             @endhasanyrole
 
             {{-- Finances --}}
-            @hasanyrole('admin|pasteur|secretariat')
+            @hasanyrole('admin|pasteur|tresorier')
+
             <p class="nav-section px-3 py-2 mt-4 uppercase">Gestion des Finances</p>
+
+            {{-- <a href="{{ route('finances.index') }}"
+            class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm {{ request()->routeIs('finances.index') ? 'active' : '' }}">
+                <span>🏠</span> Vue d'ensemble
+            </a>
+
+            <a href="{{ route('finances.reports.resultat') }}"
+            class="nav-link flex items-center gap-3 px-3 py-2 rounded text-gray-300 text-sm {{ request()->routeIs('finances.reports.resultat') ? 'active' : '' }}">
+                <span>📊</span> Compte de résultat
+            </a> --}}
+            
             <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>💰</span> Transactions
             </span>
             <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>📋</span> Budgets
             </span>
-            @endhasanyrole
 
             {{-- Rapports --}}
-            @hasanyrole('admin|pasteur')
             <p class="nav-section px-3 py-2 mt-4 uppercase">Rapports</p>
             <span class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 text-sm opacity-50 cursor-not-allowed" title="Bientôt disponible">
                 <span>📈</span> Statistiques

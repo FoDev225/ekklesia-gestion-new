@@ -12,8 +12,9 @@ class MariageRegisterRequest extends FormRequest
     {
         return [
             // Époux — soit fidèle soit saisie libre
-            'groom_id'               => 'nullable|exists:believers,id',
-            'groom_name'             => 'nullable|required_without:groom_id|string|max:150',
+            'groom_type' => 'required|in:believer,external',
+            'groom_id'   => 'nullable|exists:believers,id|required_if:groom_type,believer',
+            'groom_name' => 'nullable|required_if:groom_type,external|string|max:150',
             'groom_birthdate'        => 'nullable|date',
             'groom_birth_place'      => 'nullable|string|max:150',
             'groom_bapistism_date'   => 'nullable|date',
@@ -23,8 +24,9 @@ class MariageRegisterRequest extends FormRequest
             'groom_photo'            => 'nullable|image|max:2048',
 
             // Épouse — soit fidèle soit saisie libre
-            'bride_id'               => 'nullable|exists:believers,id',
-            'bride_name'             => 'nullable|required_without:bride_id|string|max:150',
+            'bride_type' => 'required|in:believer,external',
+            'bride_id'   => 'nullable|exists:believers,id|required_if:bride_type,believer',
+            'bride_name' => 'nullable|required_if:bride_type,external|string|max:150',
             'bride_birthdate'        => 'nullable|date',
             'bride_birth_place'      => 'nullable|string|max:150',
             'bride_bapistism_date'   => 'nullable|date',
@@ -56,8 +58,10 @@ class MariageRegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'groom_name.required_without'          => 'Le nom de l\'époux est obligatoire s\'il n\'est pas un fidèle.',
-            'bride_name.required_without'          => 'Le nom de l\'épouse est obligatoire si elle n\'est pas une fidèle.',
+            'groom_id.required_if'   => 'Veuillez sélectionner un fidèle pour l\'époux.',
+            'groom_name.required_if' => 'Le nom de l\'époux est obligatoire.',
+            'bride_id.required_if'   => 'Veuillez sélectionner une fidèle pour l\'épouse.',
+            'bride_name.required_if' => 'Le nom de l\'épouse est obligatoire.',
             'civil_marriage_date.required'         => 'La date du mariage civil est obligatoire.',
             'civil_marriage_place.required'        => 'Le lieu du mariage civil est obligatoire.',
             'religious_marriage_date.required'     => 'La date du mariage religieux est obligatoire.',

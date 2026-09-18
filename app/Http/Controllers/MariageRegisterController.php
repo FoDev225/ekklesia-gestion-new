@@ -46,8 +46,8 @@ class MariageRegisterController extends Controller
     public function store(MariageRegisterRequest $request)
     {
         $data = $request->validated();
+        $data = $this->fillFromBelieverIfSelected($request, $data);
 
-        // Upload photos
         if ($request->hasFile('groom_photo')) {
             $data['groom_photo'] = $request->file('groom_photo')->store('mariage/photos', 'public');
         }
@@ -80,6 +80,7 @@ class MariageRegisterController extends Controller
     public function update(MariageRegisterRequest $request, MariageRegister $mariage)
     {
         $data = $request->validated();
+        $data = $this->fillFromBelieverIfSelected($request, $data);
 
         if ($request->hasFile('groom_photo')) {
             if ($mariage->groom_photo) Storage::disk('public')->delete($mariage->groom_photo);
@@ -128,5 +129,43 @@ class MariageRegisterController extends Controller
         $filename = 'mariage-' . now()->format('Y') . '-' . $mariage->id . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    /**
+     * Si groom_type/bride_type = "believer", recopie les informations
+     * du fidèle sélectionné dans les colonnes de détail (snapshot au moment
+     * du mariage), puisque les champs correspondants sont masqués côté formulaire.
+     */
+    private function fillFromBelieverIfSelected(Request $request, array $data): array
+    {
+        if ($request->input('groom_type') === 'believer' && $request->filled('groom_id')) {
+            $groom = Believer::with('churchInformation', 'profession')->find($request->groom_id);
+
+            if ($groom) {
+                $data['groom_name']            = trim("{$groom->lastname} {$groom->firstname}");
+                $data['groom_birthdate']       = $groom->birth_date;
+                $data['groom_birth_place']     = $groom->birth_place;
+                $data['groom_bapistism_date']  = $groom->churchInformation?->baptism_date;
+                $data['groom_bapistism_place'] = $groom->churchInformation?->baptism_place;
+                $data['baptism_officer_groom'] = $groom->churchInformation?->baptism_pastor;
+                $data['groom_profession']      = $groom->profession?->profession;
+            }
+        }
+
+        if ($request->input('bride_type') === 'believer' && $request->filled('bride_id')) {
+            $bride = Believer::with('churchInformation', 'profession')->find($request->bride_id);
+
+            if ($bride) {
+                $data['bride_name']            = trim("{$bride->lastname} {$bride->firstname}");
+                $data['bride_birthdate']       = $bride->birth_date;
+                $data['bride_birth_place']     = $bride->birth_place;
+                $data['bride_bapistism_date']  = $bride->churchInformation?->baptism_date;
+                $data['bride_bapistism_place'] = $bride->churchInformation?->baptism_place;
+                $data['baptism_officer_bride'] = $bride->churchInformation?->baptism_pastor;
+                $data['bride_profession']      = $bride->profession?->profession;
+            }
+        }
+
+        return $data;
     }
 }

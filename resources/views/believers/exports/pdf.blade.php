@@ -12,21 +12,21 @@
             padding: 10px 15px;
             margin-bottom: 8px;
         }
-        .header h1 { font-size: 14px; font-weight: bold; }
+        .header h1 { font-size: 15px; font-weight: bold; }
         .header p  { font-size: 9px; color: #C9A635; margin-top: 3px; }
 
         .meta {
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
-            font-size: 8px;
+            font-size: 12px;
             color: #666;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 7.5px;
+            font-size: 12px;
         }
         thead tr {
             background: #1F4E79;
@@ -51,7 +51,7 @@
             display: inline-block;
             padding: 1px 5px;
             border-radius: 8px;
-            font-size: 7px;
+            font-size: 12px;
             font-weight: bold;
         }
         .badge-jeunes   { background: #d1fae5; color: #065f46; }
@@ -65,7 +65,7 @@
         .footer {
             margin-top: 10px;
             text-align: center;
-            font-size: 7px;
+            font-size: 12px;
             color: #999;
             border-top: 1px solid #eee;
             padding-top: 5px;
@@ -76,7 +76,7 @@
             padding: 2px 8px;
             border-radius: 4px;
             font-weight: bold;
-            font-size: 9px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -147,7 +147,7 @@
                 <td>{{ $believer->address?->commune ?? '—' }}</td>
                 <td>
                     @if($believer->churchInformation?->baptised)
-                        <span class="baptise-yes">✓ Oui</span>
+                        <span class="baptise-yes">Oui</span>
                     @else
                         <span class="baptise-no">Non</span>
                     @endif

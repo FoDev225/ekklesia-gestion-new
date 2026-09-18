@@ -205,7 +205,7 @@
                 <div class="info-row">
                     <div class="info-label">Baptisé(e)</div>
                     <div class="info-value {{ $ci->baptised ? 'baptise-yes' : 'baptise-no' }}">
-                        {{ $ci->baptised ? '✓ Oui' : 'Non' }}
+                        {{ $ci->baptised ? 'Oui' : 'Non' }}
                     </div>
                 </div>
                 @if($ci->baptised)

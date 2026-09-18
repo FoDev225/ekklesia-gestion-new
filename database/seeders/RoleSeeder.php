@@ -128,6 +128,15 @@ class RoleSeeder extends Seeder
             'reports.view',
         ]);
 
+        // TRESORIER — gestion des finances et budgets
+        $tresorier = Role::firstOrCreate(['name' => 'tresorier']);
+        $tresorier->givePermissionTo([
+            'believers.view',
+            'finances.view', 'finances.create', 'finances.edit', 'finances.delete',
+            'budgets.view', 'budgets.create', 'budgets.edit',
+            'reports.view',
+        ]);
+
         $this->command->info('✅ Rôles et permissions créés avec succès.');
     }
 }

@@ -67,8 +67,8 @@
                 </select>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div id="groom_name_field" class="{{ $groomType !== 'external' ? 'hidden' : '' }}">
+            <div id="groom_details_fields" class="grid grid-cols-1 md:grid-cols-2 gap-4 {{ $groomType !== 'external' ? 'hidden' : '' }}">
+                <div>
                     <label class="block text-sm font-medium text-gray-700">Nom & Prénom</label>
                     <input type="text" name="groom_name"
                         value="{{ old('groom_name', $mariage->groom_name) }}"
@@ -160,8 +160,8 @@
                 </select>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div id="bride_name_field" class="{{ $brideType !== 'external' ? 'hidden' : '' }}">
+            <div id="bride_details_fields" class="grid grid-cols-1 md:grid-cols-2 gap-4 {{ $brideType !== 'external' ? 'hidden' : '' }}">
+                <div>
                     <label class="block text-sm font-medium text-gray-700">Nom & Prénom</label>
                     <input type="text" name="bride_name"
                         value="{{ old('bride_name', $mariage->bride_name) }}"
@@ -331,13 +331,14 @@
 <script>
 function togglePerson(person, type) {
     const believerFields = document.getElementById(person + '_believer_fields');
-    const nameField = document.getElementById(person + '_name_field');
+    const detailsFields = document.getElementById(person + '_details_fields');
+
     if (type === 'believer') {
         believerFields.classList.remove('hidden');
-        nameField.classList.add('hidden');
+        detailsFields.classList.add('hidden');
     } else {
         believerFields.classList.add('hidden');
-        nameField.classList.remove('hidden');
+        detailsFields.classList.remove('hidden');
         const select = document.getElementById(person + '_id_select');
         if (select) select.value = '';
     }

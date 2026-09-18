@@ -252,13 +252,13 @@ new Chart(document.getElementById('chartGenre'), {
 new Chart(document.getElementById('chartMatrimonial'), {
     type: 'doughnut',
     data: {
-        labels: ['Célibataire', 'Marié(e)', 'Veuf/Veuve', 'Divorcé(e)'],
+        labels: ['Célibataire', 'Marié(e)', 'Veuf(ve)', 'Divorcé'],
         datasets: [{
             data: [
-                {{ $parSituation['celibataire'] ?? 0 }},
-                {{ $parSituation['marie'] ?? 0 }},
-                {{ $parSituation['veuf'] ?? 0 }},
-                {{ $parSituation['divorce'] ?? 0 }}
+                {{ $parSituation['Célibataire'] ?? 0 }},
+                {{ $parSituation['Marié(e)'] ?? 0 }},
+                {{ $parSituation['Veuf(ve)'] ?? 0 }},
+                {{ $parSituation['Divorcé'] ?? 0 }}
             ],
             backgroundColor: [bleu, vert, dore, rouge],
             borderWidth: 2

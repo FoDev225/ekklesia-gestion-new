@@ -289,4 +289,38 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
         Route::get('teams/{team}/activities/report/pdf', [\App\Http\Controllers\TeamActivityController::class, 'reportPdf'])->name('teams.activities.report-pdf');
     });
 
+    // -----------------------------------------------------------
+    // Gestion des finances (admin, pasteur, tresorier)
+    // -----------------------------------------------------------
+    Route::middleware('role:admin|pasteur|tresorier')->prefix('finances')->name('finances.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\FinanceController::class, 'index'])->name('index');
+
+        Route::get('transactions', [\App\Http\Controllers\FinanceTransactionController::class, 'index'])->name('transactions.index');
+        Route::get('budget', [\App\Http\Controllers\FinanceBudgetController::class, 'index'])->name('budget.index');
+        Route::get('periodes', [\App\Http\Controllers\FinancePeriodController::class, 'index'])->name('periods.index');
+
+        // Actions réservées au trésorier et à l'admin — le pasteur reste en lecture seule
+        Route::middleware('role:admin|tresorier')->group(function () {
+            Route::get('transactions/create', [\App\Http\Controllers\FinanceTransactionController::class, 'create'])->name('transactions.create');
+            Route::post('transactions', [\App\Http\Controllers\FinanceTransactionController::class, 'store'])->name('transactions.store');
+            Route::delete('transactions/{transaction}', [\App\Http\Controllers\FinanceTransactionController::class, 'destroy'])->name('transactions.destroy');
+
+            Route::post('budget/{period}/lines', [\App\Http\Controllers\FinanceBudgetController::class, 'storeLine'])->name('budget.lines.store');
+            Route::delete('budget/lines/{line}', [\App\Http\Controllers\FinanceBudgetController::class, 'destroyLine'])->name('budget.lines.destroy');
+
+            Route::post('periodes', [\App\Http\Controllers\FinancePeriodController::class, 'store'])->name('periods.store');
+
+            Route::get('engagements', [\App\Http\Controllers\FinanceEngagementController::class, 'index'])->name('engagements.index');
+            Route::get('engagements/{engagement}', [\App\Http\Controllers\FinanceEngagementController::class, 'show'])->name('engagements.show');
+            Route::post('engagements', [\App\Http\Controllers\FinanceEngagementController::class, 'store'])->name('engagements.store');
+            Route::post('engagements/{engagement}/payments', [\App\Http\Controllers\FinanceEngagementController::class, 'storePayment'])->name('engagements.payments.store');
+            Route::delete('engagements/{engagement}', [\App\Http\Controllers\FinanceEngagementController::class, 'destroy'])->name('engagements.destroy');
+
+            Route::get('finances/documents/create', [\App\Http\Controllers\FinanceDocumentController::class, 'create'])->name('documents.create');
+            Route::post('finances/documents', [\App\Http\Controllers\FinanceDocumentController::class, 'store'])->name('documents.store');
+
+            Route::get('finances/rapports/resultat', [\App\Http\Controllers\FinanceReportController::class, 'resultat'])->name('reports.resultat');
+        });
+    });
+
 });

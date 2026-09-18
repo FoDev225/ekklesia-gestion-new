@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             BelieverSeeder::class,   // 3. Créer les croyants et leurs relations
             ChurchSeeder::class,    // 4. Créer l'église (singleton)
             ServiceRoleSeeder::class, // 5. Créer les rôles de service
+            FinanceAccountSeeder::class,
+            FinanceCategorySeeder::class,
         ]);
     }
 }

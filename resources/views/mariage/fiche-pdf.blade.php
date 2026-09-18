@@ -7,7 +7,7 @@
 @section('doc-body')
 <style>
     .city-date {
-        font-size: 10px;
+        font-size: 14px;
         color: #555;
         margin-bottom: 10px;
     }
@@ -16,7 +16,7 @@
     .couple-block {
         display: table;
         width: 100%;
-        margin-bottom: 14px;
+        margin-bottom: 16px;
         border: 1px solid #d1d5db;
         border-radius: 4px;
         overflow: hidden;
@@ -73,7 +73,7 @@
     }
     .person-info { display: table-cell; vertical-align: top; padding-left: 6px; }
     .person-role {
-        font-size: 8px;
+        font-size: 15px;
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -81,15 +81,15 @@
     }
     .role-groom { color: #1e40af; }
     .role-bride { color: #92400e; }
-    .person-name { font-size: 11px; font-weight: bold; color: #111; line-height: 1.3; }
+    .person-name { font-size: 15px; font-weight: bold; color: #111; line-height: 1.3; }
 
     .p-row { display: table; width: 100%; padding: 2.5px 0; border-bottom: 1px solid #f3f4f6; }
     .p-row:last-child { border-bottom: none; }
-    .p-label { display: table-cell; width: 45%; font-size: 8px; color: #6b7280; }
-    .p-value { display: table-cell; font-size: 8px; font-weight: bold; color: #111; }
+    .p-label { display: table-cell; width: 45%; font-size: 15px; color: #6b7280; }
+    .p-value { display: table-cell; font-size: 15px; font-weight: bold; color: #111; }
 
     .sig-label {
-        font-size: 8px;
+        font-size: 15px;
         font-weight: bold;
         color: #374151;
         margin-top: 20px;
@@ -110,7 +110,7 @@
     .ceremony-title {
         background: #1F4E79;
         color: white;
-        font-size: 9px;
+        font-size: 15px;
         font-weight: bold;
         padding: 5px 12px;
         text-transform: uppercase;
@@ -121,8 +121,8 @@
     }
     .c-row { display: table; width: 100%; padding: 3px 0; border-bottom: 1px solid #f9fafb; }
     .c-row:last-child { border-bottom: none; }
-    .c-label { display: table-cell; width: 40%; font-size: 8.5px; color: #6b7280; }
-    .c-value { display: table-cell; font-size: 8.5px; font-weight: bold; color: #111; }
+    .c-label { display: table-cell; width: 40%; font-size: 15px; color: #6b7280; }
+    .c-value { display: table-cell; font-size: 15px; font-weight: bold; color: #111; }
 
     /* Témoins */
     .witnesses-block {
@@ -147,7 +147,7 @@
         vertical-align: top;
     }
     .witness-title {
-        font-size: 8px;
+        font-size: 15px;
         font-weight: bold;
         text-transform: uppercase;
         margin-bottom: 5px;
@@ -164,7 +164,7 @@
     .sig-final-cell {
         display: table-cell;
         text-align: center;
-        font-size: 8.5px;
+        font-size: 14px;
         font-weight: bold;
         color: #374151;
         width: 33.33%;
@@ -195,7 +195,7 @@
             </div>
             <div class="person-info">
                 <div class="person-role role-groom">Époux</div>
-                <div class="person-name">{{ strtoupper($mariage->groom_display_name) }}</div>
+                <div class="person-name">{{ mb_strtoupper($mariage->groom_display_name, 'UTF-8') }}</div>
             </div>
         </div>
         <div class="p-row">
@@ -246,7 +246,7 @@
             </div>
             <div class="person-info">
                 <div class="person-role role-bride">Épouse</div>
-                <div class="person-name">{{ strtoupper($mariage->bride_display_name) }}</div>
+                <div class="person-name">{{ mb_strtoupper($mariage->bride_display_name, 'UTF-8') }}</div>
             </div>
         </div>
         <div class="p-row">
@@ -350,12 +350,12 @@
 </div>
 
 {{-- Pasteur officiant --}}
-<div style="font-size:9px; margin-bottom:16px;">
+{{-- <div style="font-size:9px; margin-bottom:16px;">
     <strong>PASTEUR OFFICIANT :</strong> {{ $mariage->officiant }}
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <strong>Signature :</strong>
     <span style="display:inline-block; width:120px; border-bottom:1px solid #333; margin-bottom:-3px;"></span>
-</div>
+</div> --}}
 
 {{-- Signatures finales --}}
 <div class="signatures-final">

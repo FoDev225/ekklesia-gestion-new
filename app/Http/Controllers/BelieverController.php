@@ -7,7 +7,7 @@ use App\Models\Team;
 use App\Models\Sanction;
 use App\Models\Departure;
 use App\Models\Church;
-use App\Services\ActivityLogger;
+use App\Support\ActivityLogger;
 use App\Http\Requests\BelieverFormRequest;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
